@@ -1,0 +1,88 @@
+//$primary: #005b9f;
+//$danger: #ff4136;
+
+.dark {
+
+  #content {
+    background-color: #202020;
+  }
+
+  .card {
+    background-color: #393e44;
+  }
+
+  .table {
+    color: #ffffff;
+  }
+
+  .text-muted {
+    color: #C8C8C8 !important;
+  }
+
+  .modal-content {
+    background-color: #393e44;
+  }
+
+  color: #ffffff;
+}
+
+
+
+@import "~bootstrap/scss/bootstrap";
+
+.main {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: calc(100vh - 56px);
+}
+
+#content {
+  padding-top: 20px;
+  background-color: #fafafc;
+  position: relative;
+}
+
+.content-max-width {
+  max-width: 1140px;
+}
+
+#desktopSidebar {
+  width: 280px;
+  overflow-y: auto;
+}
+
+.navbar-bg{
+  background-color: royalblue;
+}
+
+.sidebar-bg{
+  background-color: #393e44;
+}
+
+.center-rel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.active {
+  background-color: darkorchid !important;
+}
+
+.toast-position {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  
+  // on mobile 
+  @include media-breakpoint-down(lg) {
+    transform: translateX(-50%)
+  }
+  // on desktop take the sidebar into account
+  @include media-breakpoint-up(lg) {
+    transform: translateX(-50%) translate(140px);
+  }
+}
