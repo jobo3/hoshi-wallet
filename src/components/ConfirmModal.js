@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react'
 import { Modal } from 'bootstrap'
+import classNames from 'classnames'
+import { useSelector } from 'react-redux'
 
 const ConfirmModal = ({ id='modal', title='Title', show, children, onClose, onConfirm }) => {
+
+  const darkMode = useSelector((state) => state.settings.darkMode)
+  const closeBtnClasses = classNames({
+    'btn-close': true,
+    'btn-close-white': darkMode
+  })
 
   useEffect(() => {
     window.addEventListener('hidden.bs.modal', onClose)
@@ -29,7 +37,7 @@ const ConfirmModal = ({ id='modal', title='Title', show, children, onClose, onCo
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{title}</h5>
-            <button type="button" className="btn-close" aria-label="Close" data-bs-dismiss={id}></button>
+            <button type="button" className={closeBtnClasses} aria-label="Close" data-bs-dismiss={id}></button>
           </div>
           <div className="modal-body">
             {children}

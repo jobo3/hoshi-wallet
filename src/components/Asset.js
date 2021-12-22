@@ -17,7 +17,7 @@ export const Asset = () => {
   const [assetMarketData, setAssetMarketData] = useState(null)
 
   // display currency
-  const displayCurrency = useSelector((state) => state.settings.display_currency)
+  const displayCurrency = useSelector((state) => state.settings.displayCurrency)
 
   let quantity = 0
   if (asset) {

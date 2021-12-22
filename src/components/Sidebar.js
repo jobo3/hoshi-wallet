@@ -30,7 +30,7 @@ const Sidebar = (props) => {
       <div ref={mobileSidebar} className="offcanvas offcanvas-start d-lg-none sidebar-bg" tabIndex="-1" id={props.id} aria-labelledby="offcanvasLabel">
         <div className="offcanvas-header">
           <h5 className="offcanvas-title text-white" id="offcanvasLabel">Hoshi Wallet</h5>
-          <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <button type="button" className="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body">
           <ul className="nav nav-pills flex-column">

@@ -3,14 +3,15 @@ import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 import QRCode from 'qrcode'
 import Spinner from './Spinner'
-//import { Toast } from 'bootstrap'
 import Toast from './Toast'
 import copy from 'copy-to-clipboard'
 import { checkInputValidity, setAmountInputValidity } from '../utils/validity'
+import HDWallet from '../utils/hdWallet'
+
  
 
 const Receive = () => {
-  let { assetId } = useParams()
+  const { assetId } = useParams()
   
   const [qrimage, setQrimage] = useState(null)
   const qrimageRef = useCallback((node) => {
@@ -22,24 +23,16 @@ const Receive = () => {
 
   const amountInputRef = useRef(null)
   const [receivingAmount, setReceivingAmount] = useState(null) 
-  
+
+  const mnemonic = useSelector((state) => state.settings.mnemonic)
+  const wallet = new HDWallet(mnemonic)
+
   useEffect(() => {
-    const getReceivingAddress = async () => {
-      try {
-        const response = await fetch(`/api/addresses/${assetId}/new`)
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json()
-        setAddress(data.address)
-        console.log(data)
-      }
-      catch(error) {
-        console.error(error)
-      }
+    try {
+      setAddress(wallet.getAddress(assetId))
     }
-    if (assetId) {
-      getReceivingAddress()
+    catch(error) {
+      console.error(error)
     }
   }, [assetId])
 
@@ -58,7 +51,7 @@ const Receive = () => {
           qrimage.width = qrimage.naturalWidth
           qrimage.height = qrimage.naturalHeight
         }
-        let uriScheme = encodeURI(`${address.asset_id}:${address.address}`)
+        let uriScheme = encodeURI(`${assetId}:${address}`)
         if (receivingAmount) {
           uriScheme += encodeURI(`?amount=${receivingAmount}`)
         }
@@ -72,7 +65,7 @@ const Receive = () => {
       }
     }
     showQR()
-  }, [address, qrimage, receivingAmount])
+  }, [assetId, address, qrimage, receivingAmount])
 
 
   const amountDiv = useRef(null)
@@ -123,7 +116,7 @@ const Receive = () => {
                   <div className="card-body">
                     <div className="d-flex justify-content-center flex-column">
                       <img ref={qrimageRef} alt="" className="mx-auto"></img>
-                      <div id="cryptoAddress" ref={cryptoAddressRef} className="text-center mt-2">{address.address}</div>
+                      <div id="cryptoAddress" ref={cryptoAddressRef} className="text-center mt-2">{address}</div>
                     </div>
                     <hr></hr>
                     <div className="d-flex justify-content-center">

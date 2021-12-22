@@ -1,4 +1,3 @@
-
 // The MIT License (MIT)
 // 
 // Copyright (c) 2021 Hoshi wallet
@@ -116,5 +115,19 @@ export default class HDWallet {
     return getAddress(node, dogecoin)
   }
 
+  /**
+   * @param asset - name of the asset e.g. bitcoin
+   * @throws error if the asset is not supported
+   */
+  getAddress(asset, account=0, chain=0, index=0) {
+    switch(asset) {
+      case 'bitcoin': return this.getBtcAddress(account, chain, index)
+      case 'ethereum': return this.getEthAddress(account, chain, index)
+      case 'litecoin': return this.getLtcAddress(account, chain, index)
+      case 'dogecoin': return this.getDogeAddress(account, chain, index)
+      default:
+        throw new Error("Asset is not supported")
+    }
+  }
   
 }

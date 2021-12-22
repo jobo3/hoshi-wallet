@@ -1,13 +1,9 @@
 import faker from 'faker'
 import { createServer, Factory, Model, trait } from 'miragejs'
 import Big from 'big.js'
-import HDWallet from './utils/hdWallet'
 
 export const startMirage = () => {
 
-  const mnemonic = 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about'
-  //const wallet = new HDWallet(mnemonic)
-  const wallet = HDWallet.generate()
   const availableAssets = ['bitcoin', 'ethereum', 'litecoin', 'dogecoin']
 
   return createServer({
@@ -67,9 +63,9 @@ export const startMirage = () => {
               case "ethereum":
                 transaction.update({ amount: getRandomEthereumAmount() })
                 break
-              case "litecoin": {
+              case "litecoin":
                 transaction.update({ amount: getRandomLitecoinAmount() })
-              }
+                break
               case "monero":
                 transaction.update({ amount: getRandomMoneroAmount() })
                 break
@@ -156,35 +152,6 @@ export const startMirage = () => {
           return { amount: (a.minus(b).minus(fee)).toNumber() } 
         }).amount )
         return assets
-      })
-
-      // generate 
-      this.get('/addresses/:asset/new', async function(schema, request) {
-        let asset = request.params.asset
-
-        let address = { asset_id: asset }
-        switch (asset) {
-          case "bitcoin":
-            address.address = wallet.getBtcAddress()
-            break
-          case "litecoin":
-            address.address = wallet.getLtcAddress()
-            break
-          case "ethereum":
-            address.address = wallet.getEthAddress()
-            break
-          case "monero":
-            address.address = "41wsgHXp6WtKmGzQwpSAdZYQCsQgW62RdVGipQjMBxhSNBJmEC1BxXzesTVUbX4wcSPjciKQ6pqoHNEjWnBJ3qf5Nnv7h7b"
-            break
-          case "dogecoin":
-            address.address = wallet.getDogeAddress()
-            break
-          default:
-            // fall back to bitcoin address
-            address.address = faker.finance.bitcoinAddress()
-            break
-        }
-        return schema.addresses.create(address)
       })
 
       // send

@@ -1,14 +1,30 @@
 //$primary: #005b9f;
 //$danger: #ff4136;
 
+$background: #fafafc;
+$background-dark: #1c1e21;
+$container-bg-dark: #393e44;
+$sidebar-bg: #272b2f;
+$sidebar-bg-dark: #272b2f;
+$navbar-bg: royalblue;
+$navbar-bg-dark: #0d0d0d;
+
 .dark {
 
   #content {
-    background-color: #202020;
+    background-color: $background-dark;
+  }
+
+  .navbar-bg {
+    background-color: $navbar-bg-dark;
+  }
+
+  .sidebar-bg{
+    background-color: $sidebar-bg-dark;
   }
 
   .card {
-    background-color: #393e44;
+    background-color: $container-bg-dark;
   }
 
   .table {
@@ -20,7 +36,7 @@
   }
 
   .modal-content {
-    background-color: #393e44;
+    background-color: $container-bg-dark;
   }
 
   color: #ffffff;
@@ -40,7 +56,7 @@
 
 #content {
   padding-top: 20px;
-  background-color: #fafafc;
+  background-color: $background;
   position: relative;
 }
 
@@ -54,11 +70,11 @@
 }
 
 .navbar-bg{
-  background-color: royalblue;
+  background-color: $navbar-bg;
 }
 
 .sidebar-bg{
-  background-color: #393e44;
+  background-color: $sidebar-bg;
 }
 
 .center-rel {
@@ -85,4 +101,11 @@
   @include media-breakpoint-up(lg) {
     transform: translateX(-50%) translate(140px);
   }
+}
+
+#walletSetupContent {
+  background-color: #F0F0F0;
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 100vh;
 }

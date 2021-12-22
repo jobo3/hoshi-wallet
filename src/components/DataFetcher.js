@@ -10,7 +10,7 @@ import { updatedPortfolio } from '../features/portfolio/portfolioSlice'
 export const DataFetcher = () => {
 
   const dispatch = useDispatch()
-  const displayCurrency = useSelector(state => state.settings.display_currency)
+  const displayCurrency = useSelector(state => state.settings.displayCurrency)
 
   useEffect(() => {
     const fetchMarketData = async () => {

@@ -43,7 +43,7 @@ const Portfolio = () => {
   }
 
   // display currency
-  const displayCurrency = useSelector((state) => state.settings.display_currency)
+  const displayCurrency = useSelector((state) => state.settings.displayCurrency)
 
   return (
     <>
@@ -56,7 +56,10 @@ const Portfolio = () => {
               <div className="mt-3">
                 <div className="card mb-3 mx-auto">
                   <div className="card-body">
-                    <h5 className="card-title mb-2">Total Balance</h5>
+                    <div className="d-flex flex-wrap">
+                        <h4 className="card-title mb-2 me-auto">Total Balance</h4>
+                        <h5>24h</h5>
+                    </div>
                     <div className="d-flex flex-wrap">
                       <div className="me-auto fs-2 align-self-center">{portfolioValue.toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</div>
                       <div className="d-flex flex-column">

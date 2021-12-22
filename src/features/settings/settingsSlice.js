@@ -1,26 +1,30 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
-  display_currency: 'usd',
-  darkMode: false
+  displayCurrency: 'usd',
+  darkMode: false,
+  mnemonic: 'abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about'
 }
 
 export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    updatedSettings: (state, action) => {
+    updatedSettings: (_state, action) => {
       return action.payload
     },
     setDisplayCurrency: (state, action) => {
-      state.display_currency = action.payload
+      state.displayCurrency = action.payload
     },
     setDarkMode: (state, action) => {
       state.darkMode = action.payload
+    },
+    setMnemonic: (state, action) => {
+      state.mnemonic = action.payload
     }
   }
 })
 
-export const {updatedSettings, setDisplayCurrency, setDarkMode} = settingsSlice.actions
+export const {updatedSettings, setDisplayCurrency, setDarkMode, setMnemonic} = settingsSlice.actions
 
 export default settingsSlice.reducer
