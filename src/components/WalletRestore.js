@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react"
 import * as bip39 from 'bip39'
 import { useHistory } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { setMnemonic } from "../features/settings/settingsSlice"
 
 const WalletRestore = () => {
 
@@ -50,7 +48,6 @@ const WalletRestore = () => {
     }
   }
 
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const handleRestoreWalletBtn = () => {
@@ -59,7 +56,6 @@ const WalletRestore = () => {
     try {
       const localStorage = window.localStorage
       localStorage.setItem('mnemonic', mnemonic)
-      dispatch(setMnemonic(mnemonic))
       history.push('/wallet')
     }
     catch(err) {
@@ -84,30 +80,27 @@ const WalletRestore = () => {
             }
           </datalist>
         </div>
-        <div>
-        </div>
-          <div className="mt-3">
+        <div className="mt-3">
+        <div className='d-none d-sm-block'>
             <div className="row g-0">
               <div className="col">
-                <ul className="list-group">
-                  {
-                    mnemonicArray.map( (item, i) =>
-                    i < MAX_MNEMONIC_SIZE / 2 && <li key={i} className="list-group-item">{i+1} {item ? item : ""}</li>
-                    )
-                  }
+                <ul className="list-group rounded-0">
+                  { mnemonicArray.map( (item, i) => i < mnemonicArray.length / 2 && <li key={i} className="list-group-item">{i+1} {item ? item : ''}</li> ) }
                 </ul>
               </div>
               <div className="col">
-                <ul className="list-group">
-                  {
-                    mnemonicArray.map( (item, i) => 
-                    i >= MAX_MNEMONIC_SIZE / 2 && <li key={i} className="list-group-item">{i+1} {item ? item : ""}</li>
-                    )
-                  }
+                <ul className="list-group rounded-0">
+                  { mnemonicArray.map( (item, i) => i >= mnemonicArray.length / 2 && <li key={i} className="list-group-item">{i+1} {item ? item: ''}</li> ) }
                 </ul>
               </div>
             </div>
           </div>
+          <div className='d-sm-none'>
+            <ul className="list-group rounded-0">
+              { mnemonicArray.map( (item, i) => i < mnemonicArray.length && <li key={i} className="list-group-item">{i+1} {item}</li> ) }
+            </ul>
+          </div>
+        </div>
         <div className="mt-3 mb-3">
           <button className="btn btn-danger me-2" onClick={deleteWord}>Delete last</button>
           <button className="btn btn-primary" disabled={mnemonicArray.includes('')} onClick={handleRestoreWalletBtn}>Restore wallet</button>

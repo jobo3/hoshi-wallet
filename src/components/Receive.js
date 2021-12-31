@@ -24,7 +24,7 @@ const Receive = () => {
   const amountInputRef = useRef(null)
   const [receivingAmount, setReceivingAmount] = useState(null) 
 
-  const mnemonic = useSelector((state) => state.settings.mnemonic)
+  const mnemonic = localStorage.getItem('mnemonic')
   const wallet = new HDWallet(mnemonic)
 
   useEffect(() => {

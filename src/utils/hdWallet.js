@@ -54,7 +54,7 @@ export default class HDWallet {
   static generate() {
     // 128 bits entropy for 12 word mnemonic, 256 bits for 24 words
     let array = new Uint8Array(16) // 16 bytes = 128 bits
-    window.crypto.getRandomValues(array)
+    crypto.getRandomValues(array)
     const buffer = Buffer.from(array)
     const mnemonic = bip39.entropyToMnemonic(buffer)
     console.log(mnemonic)

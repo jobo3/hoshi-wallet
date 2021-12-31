@@ -24,7 +24,7 @@ export const startMirage = () => {
         }),
 
         tx_id(i) {
-          return getRandomHash(256)
+          return getRandomHash(32)
         },
 
         asset_id(i) {
@@ -125,32 +125,12 @@ export const startMirage = () => {
       this.get('/assets', function(schema, request) {
         let txsCollection = schema.transactions.all()
         let txs = this.serialize(txsCollection).transactions
-        //console.log(txs)
-        let assets = []
-        txs.forEach(el => {
-          let key = el.asset_id
-          let index = assets.findIndex(e => e.id === key)
-          if (index !== -1) {
-            // asset exists already - add tx
-            assets[index].txs.push(el)
-          }
-          else {
-            // asset does not exist - create
-            assets.push({ id: key, txs: [el] })
-          }
+
+        const assets = availableAssets.map( asset => {
+          return { 'id': asset, 'txs': txs.filter( tx => tx.asset_id === asset ) } 
         })
         // set quantitiy
-        assets.forEach( asset => asset.quantity = asset.txs.reduce((prev, curr) => {
-          let a = new Big(prev.amount)
-          let b = new Big(curr.amount)
-          let fee = curr.fee
-          if (curr.in) {
-            // incoming transaction
-            return { amount: (a.plus(b)).toNumber() } 
-          }
-          // outgoing transaction
-          return { amount: (a.minus(b).minus(fee)).toNumber() } 
-        }).amount )
+        assets.map( asset => asset.quantity = getBalance(asset.txs) )
         return assets
       })
 
@@ -158,14 +138,23 @@ export const startMirage = () => {
       this.post('/send', function(schema, request) {
         let attrs = JSON.parse(request.requestBody)
         console.log(attrs)
-        // TODO: check if tx amount is smaller than balance
         if (attrs.asset_id && attrs.amount && attrs.address) {
+          const asset = attrs.asset_id
+          const txs = this.serialize(schema.transactions.where(e => e.asset_id === asset)).transactions
+          let balance = getBalance(txs)
           // if no fee is specified use standard one
-          let fee = attrs?.fee
+          let fee = attrs.fee
           if (!fee) {
             fee = new Big("0.0003")
           }
-
+          else {
+            fee = new Big(attrs.fee)
+          }
+          // check if balance is sufficient
+          let amount = new Big(attrs.amount)
+          if (amount.plus(fee).gt(balance)) {
+            return new Response( 400, { some: "header"}, { errors: ["Balance is insufficient"]})
+          }
           // create new transaction
           let tx = {
             asset_id: attrs.asset_id,
@@ -192,6 +181,21 @@ export const startMirage = () => {
     },
 
   })
+}
+
+/**
+ * @param txs array containing all transactions of the asset
+ * @returns the balance of the asset
+ */
+function getBalance(txs) {
+  let balance = new Big('0')
+  txs.forEach( tx => {
+    let amount = new Big(tx.amount)
+    let fee = new Big(tx.fee)
+    if (tx.in) balance = balance.add(amount)
+    else balance = balance.minus(amount).minus(fee)
+  })
+  return balance.toNumber()
 }
 
 function getRandomBetween(min, max) {
@@ -224,6 +228,5 @@ function getRandomHash(n) {
   for (let i = 0; i < n; i++) {
     hash += characters[Math.floor(Math.random() * 16)]
   }
-
   return hash
 }

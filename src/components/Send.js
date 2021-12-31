@@ -89,7 +89,6 @@ const Send = () => {
     .then(data => {
       console.log(data)
       history.goBack()
-      // history.push(`/wallet/${assetId}`)
     })
     .catch( e => {
       setShowToast(true)

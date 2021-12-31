@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
@@ -18,10 +17,9 @@ import Receive from './components/Receive'
 import Send from './components/Send'
 import Settings from './components/Settings'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 import WalletSetup from './components/WalletSetup'
-import { setMnemonic } from './features/settings/settingsSlice'
 
 const App = () => {
 
@@ -33,23 +31,21 @@ const App = () => {
   })
 
   const history = useHistory()
-  const dispatch = useDispatch()
   // use localStorage to check if the mnemonic exists
   // if the mnemonic exists, it is used for the wallet, if it doesn't exist the user is redirected to wallet setup
-  const localStorage = window.localStorage
   const mnemonic = localStorage.getItem('mnemonic')
   console.log(mnemonic)
-  if (mnemonic != null) {
-    dispatch(setMnemonic(mnemonic))
+  if (mnemonic == null) {
+    history.replace('/setup')
+  }
+  else {
+    history.replace('/wallet')
   }
 
   return (
       <div className={appClasses}>
         <Switch>
           <Route path="/setup" component={WalletSetup} />
-          <Route exact path="/">
-            { mnemonic == null ? <Redirect to="/setup"></Redirect> : <Redirect to="/wallet"></Redirect> }
-          </Route>
           <Route>
             <DataFetcher />
             <header>
