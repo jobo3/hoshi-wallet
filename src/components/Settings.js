@@ -4,9 +4,31 @@ import { setDisplayCurrency, setDarkMode } from '../features/settings/settingsSl
 
 const Settings = () => {
 
-  const displayCurrency = useSelector(state => state.settings.display_currency)
+  const displayCurrency = useSelector(state => state.settings.displayCurrency)
   const darkMode = useSelector(state => state.settings.darkMode)
   const dispatch = useDispatch()
+
+  const handleDarkModeSwitch = (e) => {
+    let value = e.target.checked
+    dispatch(setDarkMode(value))
+    // save
+    try {
+      let booleanString = value ? "true" : "false"
+      localStorage.setItem("settings_darkmode", booleanString)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleSelectDisplayCurrency = (e) => {
+    let value = e.target.value
+    dispatch(setDisplayCurrency(value))
+    try {
+      localStorage.setItem("settings_display_currency", value)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div>
@@ -17,11 +39,7 @@ const Settings = () => {
             <div className="d-flex flex-wrap">
               <label htmlFor="selectCurrency" className="col-form-label me-3">Currency:</label>
               <div className="flex-shrink-1" style={{ minWidth: "120px" }}>
-                <select id="selectCurrency" className="form-select" aria-label="Select currency" defaultValue={displayCurrency}
-                onChange={e => {
-                  dispatch(setDisplayCurrency(e.target.value))
-                }
-                }>
+                <select id="selectCurrency" className="form-select" aria-label="Select currency" defaultValue={displayCurrency} onChange={e => {handleSelectDisplayCurrency(e)}}>
                   <option value="usd">USD</option>
                   <option value="eur">EUR</option>
                   <option value="chf">CHF</option>
@@ -32,7 +50,7 @@ const Settings = () => {
             <div className="d-flex mt-3">
                 <div className="form-check form-switch">
                   <label htmlFor="darkModeSwitch">Dark Mode</label>
-                  <input className="form-check-input" type="checkbox" id="darkModeSwitch" onChange={e => { dispatch(setDarkMode(e.target.checked))}} checked={darkMode}></input>
+                  <input className="form-check-input" type="checkbox" id="darkModeSwitch" onChange={(e) => {handleDarkModeSwitch(e)}} checked={darkMode}></input>
                 </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import { totalPortfolioValue, totalPortfolioValue24hAgo, totalPortfolioValueChangePercentage24h } from '../utils/calculate'
 import Spinner from './Spinner'
 
@@ -35,11 +35,11 @@ const Portfolio = () => {
   }, [portfolio, marketData])
 
   // redirection
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleOnClick = (e, assetId) => {
     e.preventDefault()
-    history.push(`/wallet/${assetId}`)
+    navigate(`/wallet/${assetId}`)
   }
 
   // display currency

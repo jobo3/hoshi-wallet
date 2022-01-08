@@ -1,6 +1,8 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import * as bip39 from 'bip39'
-import { useHistory } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
+import { setMnemonic } from '../features/settings/settingsSlice'
 
 const WalletRestore = () => {
 
@@ -48,15 +50,16 @@ const WalletRestore = () => {
     }
   }
 
-  const history = useHistory()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleRestoreWalletBtn = () => {
     const mnemonic = mnemonicArray.join(' ')
+    dispatch(setMnemonic(mnemonic))
     // save mnemonic to local storage
     try {
-      const localStorage = window.localStorage
       localStorage.setItem('mnemonic', mnemonic)
-      history.push('/wallet')
+      navigate('/')
     }
     catch(err) {
       console.error(err)
@@ -65,9 +68,10 @@ const WalletRestore = () => {
 
   return (
     <div>
-      <div className='container-md' > 
+      <div className='container-md' >
+        <h1>Restore Wallet</h1>
         <div className="alert alert-info mt-3" role="alert">
-          Write your 12 backup words in the correct order, then click on "restore wallet"
+          Write your 12 recovery words in the correct order, then click on "restore wallet"
         </div>
         <div className="input-group pt-3">
           <input className="form-control" list="datalistOptions" id="dataList" ref={input} placeholder="Type to search..." onKeyDown={handleKeyDown}/>
@@ -97,7 +101,7 @@ const WalletRestore = () => {
           </div>
           <div className='d-sm-none'>
             <ul className="list-group rounded-0">
-              { mnemonicArray.map( (item, i) => i < mnemonicArray.length && <li key={i} className="list-group-item">{i+1} {item}</li> ) }
+              { mnemonicArray.map( (item, i) => <li key={i} className="list-group-item">{i+1} {item}</li> ) }
             </ul>
           </div>
         </div>

@@ -24,17 +24,17 @@ const Receive = () => {
   const amountInputRef = useRef(null)
   const [receivingAmount, setReceivingAmount] = useState(null) 
 
-  const mnemonic = localStorage.getItem('mnemonic')
-  const wallet = new HDWallet(mnemonic)
+  const mnemonic = useSelector((state) => state.settings.mnemonic)
 
   useEffect(() => {
+    const wallet = new HDWallet(mnemonic)
     try {
       setAddress(wallet.getAddress(assetId))
     }
     catch(error) {
       console.error(error)
     }
-  }, [assetId])
+  }, [assetId, mnemonic])
 
   useEffect(() => {
     if (marketData != null) {

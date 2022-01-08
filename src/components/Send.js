@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams, useHistory } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import Spinner from './Spinner'
 import { checkInputValidity, setAddressInputValidity, setSendAmountInputValidity } from '../utils/validity'
@@ -68,7 +68,7 @@ const Send = () => {
   } 
 
   // redirection
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const sendTx = () => {
     let tx = {
@@ -88,7 +88,7 @@ const Send = () => {
     .then(resp => resp.json())
     .then(data => {
       console.log(data)
-      history.goBack()
+      navigate(-1) // go back
     })
     .catch( e => {
       setShowToast(true)

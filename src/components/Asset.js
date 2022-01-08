@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useHistory } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import TxList from './TxList'
 import Spinner from './Spinner'
 
-export const Asset = () => {
+const Asset = () => {
   let { assetId } = useParams()
 
   const asset = useSelector((state) => {
@@ -19,22 +19,17 @@ export const Asset = () => {
   // display currency
   const displayCurrency = useSelector((state) => state.settings.displayCurrency)
 
-  let quantity = 0
-  if (asset) {
-    quantity = asset.quantity
+  // redirection
+  const navigate = useNavigate()
+  const handleClickOnReceiveButton = (e, assetId) => {
+    e.preventDefault()
+    navigate(`/wallet/${assetId}/receive`)
   }
 
-// redirection
-const history = useHistory()
-const handleClickOnReceiveButton = (e, assetId) => {
-  e.preventDefault()
-  history.push(`/wallet/${assetId}/receive`)
-}
-
-const handleClickOnSendButton = (e, assetId) => {
-  e.preventDefault()
-  history.push(`/wallet/${assetId}/send`)
-}
+  const handleClickOnSendButton = (e, assetId) => {
+    e.preventDefault()
+    navigate(`/wallet/${assetId}/send`)
+  }
 
   useEffect(() => {
     if (marketData && asset) {
@@ -53,8 +48,8 @@ const handleClickOnSendButton = (e, assetId) => {
               <div className="d-flex mt-3 mb-3 justify-content-center">
                 <div className="d-flex flex-column">
                   <img className="align-self-center" src={assetMarketData.image} alt={asset.id + " logo"} width="90px" height="90px"/>
-                  <h2 className="align-self-center mt-2">{quantity} {assetMarketData.symbol.toUpperCase()}</h2>
-                  <div className="text-center">{(assetMarketData.current_price * quantity).toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</div>
+                  <h2 className="align-self-center mt-2">{asset ? asset.quantity : 0} {assetMarketData.symbol.toUpperCase()}</h2>
+                  <div className="text-center">{(assetMarketData.current_price * (asset ? asset.quantity : 0)).toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</div>
                 </div>
               </div>
               <div className="d-flex justify-content-center">
