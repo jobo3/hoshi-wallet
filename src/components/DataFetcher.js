@@ -11,12 +11,13 @@ export const DataFetcher = () => {
 
   const dispatch = useDispatch()
   const displayCurrency = useSelector(state => state.settings.displayCurrency)
+  const sparkline = true
 
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
         // fetch coin data from coingecko.com
-        const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${displayCurrency}`)
+        const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${displayCurrency}&sparkline=${sparkline.toString()}`)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -33,7 +34,7 @@ export const DataFetcher = () => {
     return () => {
       clearInterval(interval)
     }
-  }, [dispatch, displayCurrency])
+  }, [dispatch, displayCurrency, sparkline])
 
 
   useEffect(() => {

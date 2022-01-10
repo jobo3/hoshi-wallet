@@ -31,7 +31,7 @@ const Settings = () => {
   }
 
   return (
-    <div>
+    <div className="container">
       <h1 className="text-center">Settings</h1>
       <div className="mt-5">
         <div className="card">

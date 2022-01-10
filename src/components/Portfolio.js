@@ -53,7 +53,7 @@ const Portfolio = () => {
           )
             :
             ( data.length === 0 ? (<div>Your Portfolio is empty.</div>) :
-              <div className="mt-3">
+              <div className="container mt-3">
                 <div className="card mb-3 mx-auto">
                   <div className="card-body">
                     <div className="d-flex flex-wrap">
@@ -76,7 +76,7 @@ const Portfolio = () => {
                   </div>
                 </div>
                 <div className="text-end small mb-1">
-                  Powered by <a href="https://www.coingecko.com" target="_blank" rel="noreferrer">CoinGecko</a>
+                  Powered by <a href="https://www.coingecko.com" target="_blank" rel="noreferrer">CoinGecko API</a>
                 </div>
                 <div className="d-none d-md-block mx-auto">
                   <div className="card">
