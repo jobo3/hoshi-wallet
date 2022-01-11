@@ -24,7 +24,7 @@ const MainView = () => {
       <div className="main">
         <Sidebar>
           <SidebarItem>
-            <NavLink to="/wallet" className="nav-link link-light">
+            <NavLink to="/wallet" className="nav-link link-light" end>
               <i className="bi bi-wallet me-2"></i>
               Wallet
             </NavLink>
@@ -36,7 +36,7 @@ const MainView = () => {
             </NavLink>
           </SidebarItem>
           <SidebarItem>
-            <NavLink end to="/settings" className="nav-link link-light">
+            <NavLink to="/settings" className="nav-link link-light">
               <i className="bi bi-gear me-2"></i>
               Settings
             </NavLink>

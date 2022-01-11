@@ -1,33 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
-import { Offcanvas } from 'bootstrap';
+import { Offcanvas } from 'bootstrap'
 
 const Sidebar = (props) => {
-
-  const [offcanvas, setOffcanvas] = useState(null)
-  const mobileSidebar = useRef(null)
 
   const location = useLocation()
   const locationRef = useRef(null)
 
   useEffect(() => {
-    setOffcanvas(new Offcanvas(mobileSidebar.current))
-  }, [])
-
-  useEffect(() => {
+    let offcanvasEl = document.getElementById(props.id)
+    let offcanvas = Offcanvas.getOrCreateInstance(offcanvasEl)
     // if location changed
     if (locationRef.current && location.pathname !== locationRef.current.pathname) {
-      console.log("location changed")
       offcanvas.hide()
-
     }
     locationRef.current = location
-  }, [location, offcanvas])
+  }, [location])
+
 
   return (
     <>
       {/* mobile offcanvas sidebar*/}
-      <div ref={mobileSidebar} className="offcanvas offcanvas-start d-lg-none sidebar-bg" tabIndex="-1" id={props.id} aria-labelledby="offcanvasLabel">
+      <div className="offcanvas offcanvas-start d-lg-none sidebar-bg" tabIndex="-1" id={props.id} aria-labelledby="offcanvasLabel">
         <div className="offcanvas-header">
           <h5 className="offcanvas-title text-white" id="offcanvasLabel">Hoshi Wallet</h5>
           <button type="button" className="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

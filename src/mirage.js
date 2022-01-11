@@ -1,4 +1,3 @@
-import faker from 'faker'
 import { createServer, Factory, Model, trait } from 'miragejs'
 import Big from 'big.js'
 
@@ -19,7 +18,7 @@ export const startMirage = () => {
 
         txOut: trait({
           in: false,
-          date: faker.date.recent(30).toISOString(),
+          date: getRandomDate(30).toISOString(),
           state: "SENT",
         }),
 
@@ -36,7 +35,7 @@ export const startMirage = () => {
         },
 
         date() {
-          return faker.date.past().toISOString()
+          return getRandomDate(365).toISOString()
         },
 
         amount(i) {
@@ -199,7 +198,7 @@ function getBalance(txs) {
 }
 
 function getRandomBetween(min, max) {
-  return Math.random() * (max - min) + min;
+  return Math.random() * (max - min) + min
 }
 
 function getRandomBitcoinAmount() {
@@ -229,4 +228,15 @@ function getRandomHash(n) {
     hash += characters[Math.floor(Math.random() * 16)]
   }
   return hash
+}
+
+function getRandomInteger(min, max) {
+  return Math.floor(getRandomBetween(min, max))
+}
+
+function getRandomDate(days) {
+  let min = 1000
+  let max = 1000 * 60 * 60 * 24 * days
+  let now = new Date().getTime()
+  return new Date(now - getRandomInteger(min, max))
 }

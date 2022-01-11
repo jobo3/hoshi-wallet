@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { totalPortfolioValue, totalPortfolioValue24hAgo, totalPortfolioValueChangePercentage24h } from '../utils/calculate'
 import Spinner from './Spinner'
+import Sparkline from './Sparkline'
 
 const Portfolio = () => {
 
@@ -88,6 +89,7 @@ const Portfolio = () => {
                         <th scope="col" className="text-end">Balance</th>
                         <th scope="col" className="text-end">Price</th>
                         <th scope="col" className="text-end">24h Change</th>
+                        <th scope="col" className="text-end">7 Days</th>
                         <th scope="col" className="text-end">Action</th>
                       </tr>
                     </thead>
@@ -114,6 +116,7 @@ const Portfolio = () => {
                                       </td>
                                       <td className="text-end align-middle">{Number(coin.current_price.toFixed(8)).toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</td>
                                       <td className={priceChangeClass}>{plus}{coin.price_change_percentage_24h.toFixed(2)+"%"}</td>
+                                      <td><Sparkline prices={coin.sparkline_in_7d.price}/></td>
                                       <td className="text-end align-middle"><div className="btn btn-link text-decoration-none" onClick={(e) => handleOnClick(e, coin.id)} style={{padding: "0px"}}>Manage</div></td>
                                     </tr>
                           }

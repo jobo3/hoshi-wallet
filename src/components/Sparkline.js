@@ -35,10 +35,10 @@ const Sparkline = ({prices, width=300, height=100, svgWidth=120, svgHeight=40 })
 
     // set color
     if (prices[prices.length-1] - prices[0] > 0) {
-      setColor("green")
+      setColor("#198754") // green
     }
     else {
-      setColor("red")
+      setColor("#dc3545") // red
     }
   }, [])
 
