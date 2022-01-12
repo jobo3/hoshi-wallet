@@ -39,4 +39,3 @@ const MarketCoinCard = ({coin}) => {
 }
 
 export default MarketCoinCard
-

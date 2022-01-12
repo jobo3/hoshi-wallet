@@ -38,5 +38,3 @@ export const totalPortfolioValueChangePercentage24h = (portfolioData) => {
     return NaN
   }
 }
-
-

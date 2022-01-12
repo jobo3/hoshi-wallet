@@ -115,4 +115,3 @@ const WalletRestore = () => {
 }
 
 export default WalletRestore
-
