@@ -19,7 +19,7 @@ const MarketCoinRow = ({coin}) => {
   })
 
   return (
-    <tr>
+    <tr key={coin.id}>
       <td className="align-middle">{coin.market_cap_rank}</td>
       <td className="align-middle">
         <img src={coin.image} alt={coin.name} width="20px" height="20px" className="me-3"/>{coin.name}
