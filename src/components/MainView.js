@@ -14,6 +14,7 @@ import Receive from './Receive'
 import Send from './Send'
 import Settings from './Settings'
 import Market from './Market'
+import ChartView from './ChartView'
 
 const MainView = () => {
   return (
@@ -24,7 +25,7 @@ const MainView = () => {
       <div className="main">
         <Sidebar>
           <SidebarItem>
-            <NavLink to="/wallet" className="nav-link link-light" end>
+            <NavLink to="/wallet" className="nav-link link-light">
               <i className="bi bi-wallet me-2"></i>
               Wallet
             </NavLink>
@@ -45,12 +46,13 @@ const MainView = () => {
         <div id="content" className="container-fluid overflow-auto">
           <div className="mx-auto mb-5">
             <Routes>
-              <Route path="/" element={<Navigate to="wallet"/>}></Route>
+              <Route path="*" element={<Navigate to="wallet"/>}></Route>
               <Route path="wallet" element={<Portfolio/>} />
               <Route path="wallet/:assetId" element={<Asset/>} />
               <Route path="wallet/:assetId/receive" element={<Receive/>} />
               <Route path="wallet/:assetId/send" element={<Send/>} />
               <Route path="market" element={<Market/>}/>
+              <Route path="market/:coinId" element={<ChartView/>}/>
               <Route path="settings" element={<Settings/>} />
             </Routes>
           </div>

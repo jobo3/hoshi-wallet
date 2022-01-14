@@ -53,10 +53,15 @@ const App = () => {
 
   return (
       <div className={appClasses}>
-        <Routes>
-          <Route path="/setup/*" element={mnemonic ? <Navigate to="/" /> : <WalletSetup/>} />
-          <Route path="/*" element={mnemonic ? <><DataFetcher/><MainView/></>: <Navigate to="/setup" />} />
-        </Routes>
+        { mnemonic == null ? 
+          <Routes>
+            <Route path="/setup/*" element={<WalletSetup/>} />
+          </Routes>
+          :
+          <Routes>
+            <Route path="/*" element={<><DataFetcher/><MainView/></>} />
+          </Routes>
+        }
       </div>
     );
 }

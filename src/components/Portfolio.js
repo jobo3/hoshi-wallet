@@ -114,7 +114,7 @@ const Portfolio = () => {
                                           <div>{asset.quantity} {coin.symbol.toUpperCase()}</div>
                                           <div className="text-muted">{value}</div>
                                       </td>
-                                      <td className="text-end align-middle">{Number(coin.current_price.toFixed(8)).toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</td>
+                                      <td className="text-end align-middle">{coin.current_price.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 8})}</td>
                                       <td className={priceChangeClass}>{plus}{coin.price_change_percentage_24h.toFixed(2)+"%"}</td>
                                       <td><Sparkline prices={coin.sparkline_in_7d.price}/></td>
                                       <td className="text-end align-middle"><div className="btn btn-link text-decoration-none" onClick={(e) => handleOnClick(e, coin.id)} style={{padding: "0px"}}>Manage</div></td>
@@ -151,7 +151,7 @@ const Portfolio = () => {
                                     <div className="w-100">
                                       <div className="d-flex flex-wrap">
                                         <div className="me-auto">{asset.quantity} {coin.symbol.toUpperCase()}</div>
-                                        <div>{Number(coin.current_price.toFixed(8)).toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</div>
+                                        <div>{coin.current_price.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 8})}</div>
                                       </div>
                                       <div className="d-flex flex-wrap">
                                         <div className="me-auto text-muted">{value}</div>

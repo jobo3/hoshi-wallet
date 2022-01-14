@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 
 /**
@@ -9,6 +10,11 @@ const MarketCoinCard = ({coin}) => {
 
   const displayCurrency = useSelector((state) => state.settings.displayCurrency)
 
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate(`/market/${coin.id}`)
+  }
+
   const plus = coin.price_change_percentage_24h >= 0 ? '+' : ''
   const priceChangeClass = classNames({
     'text-success': coin.price_change_percentage_24h >= 0,
@@ -16,7 +22,7 @@ const MarketCoinCard = ({coin}) => {
   })
 
   return (
-    <div className="card mb-2">
+    <div className="card mb-2" onClick={handleClick}>
       <div className="card-body">
         <div className="d-flex"> 
           <div className="align-self-center me-2">
@@ -28,7 +34,7 @@ const MarketCoinCard = ({coin}) => {
               <div className="small">{coin.market_cap.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 0})}</div>
             </div>
             <div className="d-flex flex-column flex-wrap text-end">
-              <div className="small">Price: {Number(coin.current_price.toFixed(8)).toLocaleString('en-US', {style:'currency', currency: displayCurrency})}</div>
+              <div className="small">Price: {Number(coin.current_price).toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 8})}</div>
               <div className="small">24h: <span className={priceChangeClass}>{plus}{coin.price_change_percentage_24h.toFixed(2)+"%"}</span></div>
             </div>
           </div>
