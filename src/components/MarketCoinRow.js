@@ -28,7 +28,7 @@ const MarketCoinRow = ({coin}) => {
       <td className="text-end align-middle">{Number(coin.current_price).toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 8})}</td>
       <td className={priceChangeClass}>{plus}{coin.price_change_percentage_24h.toFixed(2)+"%"}</td>
       <td className="text-end align-middle">{coin.market_cap.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 0})}</td>
-      <td><Sparkline prices={coin.sparkline_in_7d.price}/></td>
+      <td><Sparkline prices={coin.sparkline_in_7d.price} key={coin.id}/></td>
       <td className="text-end align-middle"><Link to={`/market/${coin.id}`}><div className="btn btn-link text-decoration-none" style={{padding: "0px"}}>View</div></Link></td>
     </tr>
   )

@@ -30,10 +30,9 @@ const App = () => {
     if (mnemonic == null) {
       // use localStorage to check if the mnemonic exists
       // if the mnemonic exists, it is used for the wallet, if it doesn't exist the user is redirected to wallet setup
-      const mnemonic = localStorage.getItem('mnemonic')
-      dispatch(setMnemonic(mnemonic))
-      console.log(mnemonic)
+      dispatch(setMnemonic(localStorage.getItem('mnemonic')))
     }
+    console.log(mnemonic)
   }, [mnemonic])
 
   useEffect(() => {
@@ -55,6 +54,7 @@ const App = () => {
       <div className={appClasses}>
         { mnemonic == null ? 
           <Routes>
+            <Route path="/*" element={<Navigate to="/setup" />} />
             <Route path="/setup/*" element={<WalletSetup/>} />
           </Routes>
           :

@@ -87,7 +87,7 @@ const Portfolio = () => {
                     </thead>
                     <tbody>
                       {
-                        data.map((asset, i) => <PortfolioAssetRow asset={asset} key={i}/>)
+                        data.map((asset, i) => <PortfolioAssetRow asset={asset} key={asset.id}/>)
                       }
                     </tbody>
                   </table>
@@ -96,7 +96,7 @@ const Portfolio = () => {
                 </div>
                 <div className="d-md-none">
                   {
-                    data.map((asset, i) => <PortfolioAssetCard asset={asset} key={i}/>)
+                    data.map((asset, i) => <PortfolioAssetCard asset={asset} key={asset.id}/>)
                   }
                 </div>
               </div>
