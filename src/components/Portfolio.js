@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { totalPortfolioValue, totalPortfolioValue24hAgo, totalPortfolioValueChangePercentage24h } from '../utils/calculate'
 import Spinner from './Spinner'
 import PortfolioAssetCard from './PortfolioAssetCard'
@@ -10,7 +10,6 @@ const Portfolio = () => {
 
   // portfolio state from redux
   const portfolio = useSelector((state) => state.portfolio)
-  const dispatch = useDispatch()
   // market data from redux
   const marketData = useSelector((state) => state.marketData)
 
@@ -87,7 +86,7 @@ const Portfolio = () => {
                     </thead>
                     <tbody>
                       {
-                        data.map((asset, i) => <PortfolioAssetRow asset={asset} key={asset.id}/>)
+                        data.map((asset) => <PortfolioAssetRow asset={asset} key={asset.id}/>)
                       }
                     </tbody>
                   </table>
@@ -96,7 +95,7 @@ const Portfolio = () => {
                 </div>
                 <div className="d-md-none">
                   {
-                    data.map((asset, i) => <PortfolioAssetCard asset={asset} key={asset.id}/>)
+                    data.map((asset) => <PortfolioAssetCard asset={asset} key={asset.id}/>)
                   }
                 </div>
               </div>

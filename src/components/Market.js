@@ -60,7 +60,7 @@ const Market = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    { filteredMarketData.map((coin, i) => <MarketCoinRow coin={coin} key={coin.id}/>) }
+                    { filteredMarketData.map((coin) => <MarketCoinRow coin={coin} key={coin.id}/>) }
                   </tbody>
                 </table>
                 { filteredMarketData.length < 1 && (<p className="text-muted fs-5 text-center">No matching coin</p>) }
@@ -74,7 +74,7 @@ const Market = () => {
                 <input type="search" className="form-control" placeholder="Search coin..." aria-label="Search" value={searchTerm} onChange={handleSearch}/>
               </div>
             </div>
-              { filteredMarketData.map((coin, i) => <MarketCoinCard coin={coin} key={coin.id}/>) }
+              { filteredMarketData.map((coin) => <MarketCoinCard coin={coin} key={coin.id}/>) }
           </div>
 
         </div>

@@ -1,19 +1,31 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-const Navbar = ({target = '#mobileSidebar'}) => {
+const Navbar = () => {
   return (
-  <div>
-    <nav className="navbar navbar-expand-lg navbar-dark navbar-bg">
-      <div className="container-fluid">
-        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target={target} aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse">
-          <a className="navbar-brand" href="/">Hoshi Wallet</a>
+    <div>
+      <nav className="navbar fixed-bottom navbar-expand navbar-dark app-navbar">
+        <div className="container-fluid">
+          <ul className="navbar-nav justify-content-around w-100">
+            <li className="nav-item">
+              <NavLink to="/wallet" className="nav-link">
+                <i className="bi bi-wallet" />
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/market" className="nav-link">
+                <i className="bi bi-bar-chart" />
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/settings" className="nav-link">
+                <i className="bi bi-gear" />
+              </NavLink>
+            </li>
+          </ul>
         </div>
-      </div>
-    </nav>
-  </div>
+      </nav>
+    </div>
   )
 }
 

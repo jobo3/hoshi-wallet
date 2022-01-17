@@ -1,7 +1,7 @@
 import {
   Routes,
   Route,
-  Navigate,
+  useNavigate,
 } from 'react-router-dom'
 
 import './App.scss'
@@ -26,13 +26,20 @@ const App = () => {
   const mnemonic = useSelector((state) => state.settings.mnemonic)
   const dispatch = useDispatch()
 
+  const navigate = useNavigate()
+
   useEffect(() => {
+    console.log(mnemonic)
     if (mnemonic == null) {
       // use localStorage to check if the mnemonic exists
       // if the mnemonic exists, it is used for the wallet, if it doesn't exist the user is redirected to wallet setup
-      dispatch(setMnemonic(localStorage.getItem('mnemonic')))
+      let savedMnemonic = localStorage.getItem('mnemonic')
+      dispatch(setMnemonic(savedMnemonic))
+      if (savedMnemonic == null) {
+        // navigate to setup
+        navigate("/setup", {replace: true})
+      }
     }
-    console.log(mnemonic)
   }, [mnemonic])
 
   useEffect(() => {
@@ -52,16 +59,10 @@ const App = () => {
 
   return (
       <div className={appClasses}>
-        { mnemonic == null ? 
-          <Routes>
-            <Route path="/*" element={<Navigate to="/setup" />} />
-            <Route path="/setup/*" element={<WalletSetup/>} />
-          </Routes>
-          :
           <Routes>
             <Route path="/*" element={<><DataFetcher/><MainView/></>} />
+            <Route path="/setup/*" element={<WalletSetup/>} />
           </Routes>
-        }
       </div>
     );
 }

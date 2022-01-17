@@ -15,7 +15,7 @@ $navbar-bg-dark: #0d0d0d;
     background-color: $background-dark;
   }
 
-  .navbar-bg {
+  .app-navbar {
     background-color: $navbar-bg-dark;
   }
 
@@ -28,7 +28,7 @@ $navbar-bg-dark: #0d0d0d;
   }
 
   .table {
-    color: #ffffff;
+    color: white;
   }
 
   .text-muted {
@@ -39,34 +39,61 @@ $navbar-bg-dark: #0d0d0d;
     background-color: $container-bg-dark;
   }
 
-  color: #ffffff;
+  .list-group-item {
+    background-color: $container-bg-dark;
+    border-color: #C8C8C8;
+    color: white;
+  }
+
+  .btn-outline-secondary {
+    color: #C8C8C8;
+  }
+
+  color: white;
 }
 
 
-
 @import "~bootstrap/scss/bootstrap";
+
+// mobile browser navbar fix
+body {
+  height: 100vh; 
+  overflow: hidden;
+}
 
 .main {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-  height: calc(100vh - 56px);
+  height: 100vh;
+  // on mobile 
+  @include media-breakpoint-down(lg) {
+   height: calc(100vh - 56px); // navbar height
+  }
 }
 
 #content {
   padding-top: 20px;
   background-color: $background;
   position: relative;
+  padding-bottom: 80px;
 }
 
 #desktopSidebar {
   width: 280px;
   overflow-y: auto;
+  .active {
+    background-color: darkorchid !important;
+  }
 }
 
-.navbar-bg{
+.app-navbar {
   background-color: $navbar-bg;
+  // on mobile 
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
 }
 
 .sidebar-bg{
@@ -80,13 +107,9 @@ $navbar-bg-dark: #0d0d0d;
   transform: translate(-50%, -50%);
 }
 
-.nav-link.active {
-  background-color: darkorchid !important;
-}
-
 .toast-position {
   position: fixed;
-  bottom: 30px;
+  bottom: 80px;
   left: 50%;
   
   // on mobile 
@@ -100,8 +123,14 @@ $navbar-bg-dark: #0d0d0d;
 }
 
 #walletSetupContent {
-  background-color: rgb(248, 249, 250);//#F0F0F0;
+  background-color: $background;
   overflow-x: auto;
   overflow-y: auto;
   height: 100vh;
+}
+
+.dark {
+  #walletSetupContent {
+    background-color: $background-dark;
+  }
 }

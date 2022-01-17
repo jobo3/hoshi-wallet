@@ -20,7 +20,6 @@ const MainView = () => {
   return (
     <>
       <header>
-        <Navbar />
       </header>
       <div className="main">
         <Sidebar>
@@ -46,7 +45,7 @@ const MainView = () => {
         <div id="content" className="container-fluid overflow-auto">
           <div className="mx-auto mb-5">
             <Routes>
-              <Route path="*" element={<Navigate to="wallet"/>}></Route>
+              <Route path="/" element={<Navigate to="/wallet"/>}/>
               <Route path="wallet" element={<Portfolio/>} />
               <Route path="wallet/:assetId" element={<Asset/>} />
               <Route path="wallet/:assetId/receive" element={<Receive/>} />
@@ -54,10 +53,12 @@ const MainView = () => {
               <Route path="market" element={<Market/>}/>
               <Route path="market/:coinId" element={<ChartView/>}/>
               <Route path="settings" element={<Settings/>} />
+              <Route path="*" element={<div>Page not found</div>}></Route>
             </Routes>
           </div>
         </div>
       </div>
+      <Navbar />
     </>
   )
 }
