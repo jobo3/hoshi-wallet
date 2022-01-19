@@ -1,8 +1,6 @@
 import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updatedMarketData } from '../features/marketdata/marketDataSlice'
-import { updatedPortfolio } from '../features/portfolio/portfolioSlice'
-import AssetHelper from '../utils/assetHelper'
 
 /*
   This component is used to fetch data from an API.
@@ -15,6 +13,7 @@ export const DataFetcher = () => {
   const sparkline = true
 
   useEffect(() => {
+
     const fetchMarketData = async () => {
       try {
         // fetch coin data from coingecko.com
@@ -36,39 +35,6 @@ export const DataFetcher = () => {
       clearInterval(interval)
     }
   }, [dispatch, displayCurrency, sparkline])
-
-
-/*   useEffect(() => {
-    const fetchAssets = async () => {
-      try {
-      const response = await fetch('/api/assets')
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json()
-      //console.log(data)
-      dispatch(updatedPortfolio(data))
-      }
-      catch(error) {
-        console.error(error)
-      }
-    }
-    fetchAssets()
-    // fetch data every 30 seconds
-    const interval = setInterval(fetchAssets, 10*1000)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [dispatch]) */
-
-  useEffect(() => {
-    try {
-      const initialAssets = AssetHelper.generateInitialAssets()
-      dispatch(updatedPortfolio(initialAssets))
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
 
   return (<></>)
 }

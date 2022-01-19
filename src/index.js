@@ -6,6 +6,16 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 import store from './app/store'
 import { Provider } from 'react-redux'
 
+store.subscribe(() => {
+  let state = store.getState()
+  try {
+    // save settings and portfolio
+    localStorage.setItem('settings', JSON.stringify(state.settings))
+    localStorage.setItem('portfolio', JSON.stringify(state.portfolio))
+  } catch(error) {
+    console.log(error)
+  }
+})
 
 ReactDOM.render(
   <React.StrictMode>

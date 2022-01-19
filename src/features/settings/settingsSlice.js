@@ -1,10 +1,13 @@
 import {createSlice} from '@reduxjs/toolkit'
 
-const initialState = {
+const defaultState = {
   displayCurrency: 'usd',
   darkMode: false,
   mnemonic: null
 }
+
+// load from localstorage
+const initialState = localStorage.getItem("settings") === null ?  defaultState: JSON.parse(localStorage.getItem('settings'))
 
 export const settingsSlice = createSlice({
   name: 'settings',

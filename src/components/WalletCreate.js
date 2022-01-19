@@ -89,15 +89,7 @@ const WalletCreate = () => {
       const mnemonic = mnemonicArray.join(' ')
       console.log("finish btn", mnemonic)
       dispatch(setMnemonic(mnemonic))
-      try {
-        localStorage.setItem('mnemonic', mnemonic)
-      }
-      catch(err) {
-        console.error(err)
-      }
-      finally {
-        navigate('/')
-      }
+      navigate('/')
     }
 
     return (

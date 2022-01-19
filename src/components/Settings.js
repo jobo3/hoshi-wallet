@@ -11,23 +11,11 @@ const Settings = () => {
   const handleDarkModeSwitch = (e) => {
     let value = e.target.checked
     dispatch(setDarkMode(value))
-    // save
-    try {
-      let booleanString = value ? "true" : "false"
-      localStorage.setItem("settings_darkmode", booleanString)
-    } catch (error) {
-      console.error(error)
-    }
   }
 
   const handleSelectDisplayCurrency = (e) => {
     let value = e.target.value
     dispatch(setDisplayCurrency(value))
-    try {
-      localStorage.setItem("settings_display_currency", value)
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   return (

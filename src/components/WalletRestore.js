@@ -56,14 +56,7 @@ const WalletRestore = () => {
   const handleRestoreWalletBtn = () => {
     const mnemonic = mnemonicArray.join(' ')
     dispatch(setMnemonic(mnemonic))
-    // save mnemonic to local storage
-    try {
-      localStorage.setItem('mnemonic', mnemonic)
-      navigate('/')
-    }
-    catch(err) {
-      console.error(err)
-    }
+    navigate('/')
   }
 
   return (
