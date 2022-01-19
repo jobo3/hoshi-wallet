@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Spinner from './Spinner'
 import { checkInputValidity, setAddressInputValidity, setSendAmountInputValidity } from '../utils/validity'
 import Big from 'big.js'
 import ConfirmModal from './ConfirmModal'
 import Toast from './Toast'
+import AssetHelper from '../utils/assetHelper'
+import { newTx } from '../features/portfolio/portfolioSlice'
 
 const Send = () => {
   let { assetId } = useParams()
   const marketData = useSelector((state) => state.marketData)
   const [assetMarketData, setAssetMarketData] = useState(null)
+  const portfolio = useSelector((state) => state.portfolio)
+  const dispatch = useDispatch()
   const asset = useSelector((state) => {
     if (state.portfolio) 
       return state.portfolio.find(e => e.id === assetId)
@@ -74,27 +78,18 @@ const Send = () => {
     let tx = {
       asset_id: assetId,
       address: address,
-      amount: amount,
+      amount: amount.toNumber(),
     }
-
-    fetch('/api/send', 
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(tx)
-    })
-    .then(resp => resp.json())
-    .then(data => {
-      console.log(data)
-      navigate(-1) // go back
-    })
-    .catch( e => {
+    try {
+      let balance = portfolio.find(e => e.id === tx.asset_id).quantity
+      let createdTx = AssetHelper.createTransaction(balance, tx)
+      console.log(createdTx)
+      dispatch(newTx(createdTx))
+      navigate(-1)
+    } catch(error) {
+      console.error(error)
       setShowToast(true)
-      console.log(e)
-    })
-
+    }
     setShowModal(false)
   }
 
@@ -133,7 +128,7 @@ const Send = () => {
           <ConfirmModal title="Confirm Transaction" show={showModal} onClose={() => setShowModal(false)} onConfirm={sendTx}>
             <p className="text-break">Amount: {amount?.toString()}</p>
             <p className="text-break">Address: {address}</p>
-            <p className="text-break">Transaction fee: 0.0003</p>
+            <p className="text-break">Transaction fee: {AssetHelper.getTxFee(asset.id)}</p>
           </ConfirmModal>
           <Toast show={showToast} onClose={() => setShowToast(false)} message="Error" color="danger" delay={2000}></Toast>
         </div>

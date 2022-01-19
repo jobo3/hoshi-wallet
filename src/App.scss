@@ -19,7 +19,7 @@ $navbar-bg-dark: #0d0d0d;
     background-color: $navbar-bg-dark;
   }
 
-  .sidebar-bg{
+  .sidebar{
     background-color: $sidebar-bg-dark;
   }
 
@@ -80,9 +80,10 @@ body {
   padding-bottom: 80px;
 }
 
-#desktopSidebar {
+.sidebar {
   width: 280px;
   overflow-y: auto;
+  background-color: $sidebar-bg;
   .active {
     background-color: darkorchid !important;
   }
@@ -94,10 +95,6 @@ body {
   @include media-breakpoint-up(lg) {
     display: none;
   }
-}
-
-.sidebar-bg{
-  background-color: $sidebar-bg;
 }
 
 .center-rel {

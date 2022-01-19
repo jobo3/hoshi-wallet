@@ -57,7 +57,7 @@ const ChartView = () => {
     <div>
       { data != null && coinName != null ?
         <div className="card p-3">
-          <div className="text-center">{marketData.find(e => e.id === coinId).name} Price</div>
+          <h2 className="text-center">{marketData.find(e => e.id === coinId).name} Price</h2>
           <PriceChart data={data} days={days} currency={displayCurrency} dark={darkMode}/>
           <div className="btn-group w-25 mt-2" role="group" aria-label="Select Time Period">
             <button type="button" className={days === 1 ? timePeriodBtnClassesActive : timePeriodBtnClasses} onClick={() => handleTimePeriodBtnClick(1)}>24h</button>

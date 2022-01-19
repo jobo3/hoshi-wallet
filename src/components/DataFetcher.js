@@ -2,6 +2,7 @@ import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updatedMarketData } from '../features/marketdata/marketDataSlice'
 import { updatedPortfolio } from '../features/portfolio/portfolioSlice'
+import AssetHelper from '../utils/assetHelper'
 
 /*
   This component is used to fetch data from an API.
@@ -37,7 +38,7 @@ export const DataFetcher = () => {
   }, [dispatch, displayCurrency, sparkline])
 
 
-  useEffect(() => {
+/*   useEffect(() => {
     const fetchAssets = async () => {
       try {
       const response = await fetch('/api/assets')
@@ -58,7 +59,16 @@ export const DataFetcher = () => {
     return () => {
       clearInterval(interval)
     }
-  }, [dispatch])
+  }, [dispatch]) */
+
+  useEffect(() => {
+    try {
+      const initialAssets = AssetHelper.generateInitialAssets()
+      dispatch(updatedPortfolio(initialAssets))
+    } catch (error) {
+      console.error(error)
+    }
+  }, [])
 
   return (<></>)
 }

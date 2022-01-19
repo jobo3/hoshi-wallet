@@ -5,10 +5,7 @@ import App from './App'
 import "bootstrap-icons/font/bootstrap-icons.css"
 import store from './app/store'
 import { Provider } from 'react-redux'
-import { startMirage } from './mirage'
 
-// start mirage mock API
-const server = startMirage()
 
 ReactDOM.render(
   <React.StrictMode>

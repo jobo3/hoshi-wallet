@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import Big from 'big.js'
 
 const initialState = null
 
@@ -9,9 +10,23 @@ export const portfolioSlice = createSlice({
     updatedPortfolio: (state, action) => {
       return action.payload
     },
+    newTx: (state, action) => {
+      let tx = action.payload
+      let index = state.findIndex(e => e.id === tx.asset_id)
+      if (index !== -1)  {
+        state[index].txs.push(tx)
+        // update quantity
+        let balance = new Big(state[index].quantity)
+        let amount = new Big(tx.amount)
+        let fee = new Big(tx.fee)
+        if (tx.in) balance = balance.add(amount)
+        else balance = balance.minus(amount).minus(fee)
+        state[index].quantity = balance.toNumber()
+      }
+    }
   }
 })
 
-export const {updatedPortfolio} = portfolioSlice.actions
+export const {updatedPortfolio, newTx} = portfolioSlice.actions
 
 export default portfolioSlice.reducer
