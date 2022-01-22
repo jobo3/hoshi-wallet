@@ -10,10 +10,8 @@ const ChartView = () => {
 
   const displayCurrency = useSelector(state => state.settings.displayCurrency)
   const darkMode = useSelector(state => state.settings.darkMode)
-  const marketData = useSelector(state => state.marketData)
 
   const [data, setData] = useState(null)
-  const [coinName, setCoinName] = useState(null)
   const [days, setDays] = useState(1)
   
   useEffect(() => {
@@ -34,18 +32,6 @@ const ChartView = () => {
     fetchMarketChartData()
   }, [days])
 
-  useEffect(() => {
-    if (marketData != null) {
-      let element = marketData.find(e => e.id === coinId)
-      if (element === undefined) {
-        setCoinName(coinId)
-      }
-      else {
-        setCoinName(element.name)
-      }
-    }
-  }, [marketData])
-
   const handleTimePeriodBtnClick = (days) => {
     setDays(days)
   }
@@ -55,9 +41,9 @@ const ChartView = () => {
 
   return (
     <div>
-      { data != null && coinName != null ?
+      { data != null ?
         <div className="card p-3">
-          <h2 className="text-center">{marketData.find(e => e.id === coinId).name} Price</h2>
+          <h2 className="text-center">{coinId.charAt(0).toUpperCase() + coinId.slice(1)} Price</h2>
           <PriceChart data={data} days={days} currency={displayCurrency} dark={darkMode}/>
           <div className="btn-group w-25 mt-2" role="group" aria-label="Select Time Period">
             <button type="button" className={days === 1 ? timePeriodBtnClassesActive : timePeriodBtnClasses} onClick={() => handleTimePeriodBtnClick(1)}>24h</button>

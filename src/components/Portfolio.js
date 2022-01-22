@@ -22,7 +22,9 @@ const Portfolio = () => {
   useEffect(() => {
     if (marketData && portfolio) {
       // combine portfolio data with market data
-      const portfolioData = portfolio.map( e => ({ ...e, market_data: marketData.find(el => el.id === e.id)}))
+      let portfolioData = portfolio.map( e => ({ ...e, market_data: marketData.find(el => el.id === e.id)}))
+      // exclude coins with no market data (this should never happen)
+      portfolioData = portfolioData.filter(e => e.market_data !== undefined)
       // sort assets by value - show bigger holdings first
       portfolioData.sort((a, b) => (b.quantity * b.market_data.current_price) - (a.quantity * a.market_data.current_price))
       //console.log(portfolioData)

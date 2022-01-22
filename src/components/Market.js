@@ -7,7 +7,30 @@ import MarketCoinRow from './MarketCoinRow'
 
 const Market = () => {
 
-  const marketData = useSelector((state) => state.marketData)
+  const displayCurrency = useSelector(state => state.settings.displayCurrency)
+  const sparkline = true
+
+  const [marketData, setMarketData] = useState(null)
+
+  useEffect( () => {
+    const fetchMarketData = async () => {
+      try {
+        // fetch the market data of the first 100 coins
+        let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${displayCurrency}&sparkline=${sparkline.toString()}`
+        // fetch coin data from coingecko.com
+        const response = await fetch(url)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json()
+        setMarketData(data)
+      }
+      catch(error) {
+        console.error(error)
+      }
+    }
+    fetchMarketData()
+  }, [displayCurrency, sparkline])
 
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredMarketData, setFilteredMarketData] = useState(null)

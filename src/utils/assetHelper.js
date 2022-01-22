@@ -147,7 +147,7 @@ export default class AssetHelper {
         address: tx.address,
         amount: tx.amount,
         fee: fee,
-        tx_id: getRandomHash(),
+        tx_id: getRandomHash(32),
         date: new Date().toISOString(),
         in: false,
         state: "PENDING"
