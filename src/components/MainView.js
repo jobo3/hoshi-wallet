@@ -15,6 +15,7 @@ import Send from './Send'
 import Settings from './Settings'
 import Market from './Market'
 import ChartView from './ChartView'
+import BuyAsset from './BuyAsset'
 
 const MainView = () => {
   return (
@@ -45,15 +46,16 @@ const MainView = () => {
         <div id="content" className="container-fluid overflow-auto">
           <div className="mx-auto mb-5">
             <Routes>
-              <Route path="/" element={<Navigate to="/wallet"/>}/>
+              <Route path="/" element={<Navigate to="/wallet"/>} />
               <Route path="wallet" element={<Portfolio/>} />
               <Route path="wallet/:assetId" element={<Asset/>} />
               <Route path="wallet/:assetId/receive" element={<Receive/>} />
               <Route path="wallet/:assetId/send" element={<Send/>} />
-              <Route path="market" element={<Market/>}/>
-              <Route path="market/:coinId" element={<ChartView/>}/>
+              <Route path="market" element={<Market/>} />
+              <Route path="market/:coinId" element={<ChartView/>} />
               <Route path="settings" element={<Settings/>} />
-              <Route path="*" element={<div>Page not found</div>}></Route>
+              <Route path="buy/:assetId/*" element={<BuyAsset/>} /> 
+              <Route path="*" element={<div>Page not found</div>} />
             </Routes>
           </div>
         </div>

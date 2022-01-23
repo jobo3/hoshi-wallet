@@ -10,8 +10,8 @@ const Asset = () => {
   const asset = useSelector((state) => {
     if (state.portfolio != null) 
       return state.portfolio.find(e => e.id === assetId)
-
-    return null
+    else
+      return null
   })
   const marketData = useSelector((state) => state.marketData)
   const [assetMarketData, setAssetMarketData] = useState(null)
@@ -21,13 +21,11 @@ const Asset = () => {
 
   // redirection
   const navigate = useNavigate()
-  const handleClickOnReceiveButton = (e, assetId) => {
-    e.preventDefault()
+  const handleClickOnReceiveButton = () => {
     navigate(`/wallet/${assetId}/receive`)
   }
 
-  const handleClickOnSendButton = (e, assetId) => {
-    e.preventDefault()
+  const handleClickOnSendButton = () => {
     navigate(`/wallet/${assetId}/send`)
   }
 
@@ -54,10 +52,10 @@ const Asset = () => {
               </div>
               <div className="d-flex justify-content-center">
                 <div className="d-grid col-3 col-lg-2 me-2">
-                <button className="btn btn-primary" style={{height: "2.7rem"}} type="button" onClick={ e => handleClickOnSendButton(e, assetId) }>Send</button>
+                <button className="btn btn-primary" style={{height: "2.7rem"}} type="button" onClick={handleClickOnSendButton}>Send</button>
                 </div>
                 <div className="d-grid col-3 col-lg-2">
-                  <button className="btn btn-primary" type="button" style={{height: "2.7rem"}} onClick={ e => handleClickOnReceiveButton(e, assetId) }>Receive</button>
+                  <button className="btn btn-primary" type="button" style={{height: "2.7rem"}} onClick={handleClickOnReceiveButton}>Receive</button>
                 </div>
               </div>
             </div>

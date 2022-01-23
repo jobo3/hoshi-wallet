@@ -157,4 +157,29 @@ export default class AssetHelper {
     }
   }
 
+  // create incoming tx
+  static createIncomingTransaction(tx) {
+    if (tx.asset_id && tx.amount && tx.address) {
+      // if no fee is specified use standard one
+      let fee = tx.fee
+      if (!fee) {
+        fee = this.getTxFee(tx.asset_id)
+      }
+
+      // create new transaction
+      let newTx = {
+        asset_id: tx.asset_id,
+        address: tx.address,
+        amount: tx.amount,
+        fee: fee,
+        tx_id: getRandomHash(32),
+        date: new Date().toISOString(),
+        in: true,
+        state: "PENDING"
+      }
+
+      return newTx
+  }
+}
+
 }

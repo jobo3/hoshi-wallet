@@ -32,11 +32,11 @@ const PortfolioAssetCard = ({asset}) => {
             <img src={coin.image} alt={coin.name} width="40px" height="40px" className=""/>
           </div>
           <div className="row w-100">
-            <div className="col-12 col-sm-6 me-auto">
+            <div className="col-sm-6 me-auto">
               <div className="small">Quantity: {asset.quantity} {coin.symbol.toUpperCase()}</div>
               <div className="small">Price: {coin.current_price.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 8})}</div>
             </div>
-            <div className="col-12 col-sm-6 text-sm-end">
+            <div className="col-sm-6 text-sm-end">
               <div className="small">Balance: {value}</div>
               <div className="small">24h: <span className={priceChangeClass}>{plus}{coin.price_change_percentage_24h.toFixed(2)+"%"}</span></div>
             </div>
