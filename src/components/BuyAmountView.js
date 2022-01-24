@@ -28,7 +28,6 @@ const BuyAmountView = () => {
   // in displayCurrency units
   const [purchaseValue, setPurchaseValue] = useState(100)
   const [coinsAmount, setCoinsAmount] = useState(0)
-  const [buyButtonEnabled, setBuyButtonEnabled] = useState(true)
 
   useEffect(() => {
     if (assetMarketData != null) {
@@ -67,7 +66,7 @@ const BuyAmountView = () => {
             <div className="card-body">
               <div>
                 <label htmlFor="purchaseValueInput" className="form-label">Purchase Value ({displayCurrency.toUpperCase()})</label>
-                <input type="number" value={purchaseValue} className="form-control" id="purchaseValueInput" aria-describedby="purchase value input" min="0.00" max="10000.00" step="1" onChange={handlePurchaseValueChange} />
+                <input type="number" value={purchaseValue === 0 ? '' : purchaseValue} className="form-control" id="purchaseValueInput" aria-describedby="purchase value input" min="0.00" max="10000.00" step="1" onChange={handlePurchaseValueChange} />
                 <button type="button" className="btn btn-primary mt-3" onClick={handleClickOnBuyButton}>Buy</button>
               </div>
             </div>

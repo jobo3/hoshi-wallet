@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import Big from 'big.js'
-import AssetHelper from '../utils/assetHelper'
+import { roundAssetDown, createIncomingTransaction } from '../utils/assetHelper'
 import { newTx } from '../features/portfolio/portfolioSlice'
 import HDWallet from '../utils/hdWallet'
 
@@ -10,7 +10,11 @@ const BuyCheckoutView = () => {
 
   const { assetId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
-  let purchaseValue = new Big(searchParams.get('value'))
+  let fractionDigits = 6
+  let purchaseValue = null
+  try {
+    purchaseValue = new Big(searchParams.get('value'))
+  } catch (error) {}
   let displayCurrency = searchParams.get('currency')
 
   const assetMarketData = useSelector((state) => {
@@ -43,32 +47,37 @@ const BuyCheckoutView = () => {
     let form = event.target
     if (form.checkValidity()) {  
       try {
-        let amount = purchaseValue.div(assetMarketData.current_price)
         let tx = {
           asset_id: assetId,
           address: new HDWallet(settings.mnemonic).getAddress(assetId),
-          amount: Number(amount.toFixed(8))
+          amount: coinsAmount
         }
-        tx = AssetHelper.createIncomingTransaction(tx)
+        tx = createIncomingTransaction(tx)
         console.log(tx)
         dispatch(newTx(tx))
         navigate('/wallet/'+assetId)
       } catch(error) {
         console.error(error)
-        //setShowToast(true)
       }
     }
     form.classList.add("was-validated")
   }
 
+  const [coinsAmount, setCoinsAmount] = useState(0)
+  useEffect(() => {
+    if (assetMarketData != null) {
+      setCoinsAmount( roundAssetDown((purchaseValue.div(assetMarketData.current_price).toNumber()), fractionDigits) )
+    }
+  }, [assetMarketData, purchaseValue])
+
   return (
     <>
-      { assetMarketData && displayCurrency ?
+      { assetMarketData && displayCurrency && purchaseValue ?
       <div>
         <div className="card mt-3 mb-3">
           <div className="card-body text-center">
             <p className="fs-1">You pay: {(purchaseValue.toNumber()).toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 2})}</p>
-            <p className="fs-1">You get: {(purchaseValue.div(assetMarketData.current_price).toNumber()).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 8}) + ' ' + assetMarketData.symbol.toUpperCase()}</p>
+            <p className="fs-1">You get: {coinsAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 8}) + ' ' + assetMarketData.symbol.toUpperCase()}</p>
           </div>
         </div>
         <div className="card mb-3">

@@ -1,9 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit'
 import Big from 'big.js'
-import AssetHelper from '../../utils/assetHelper'
+import { generateInitialAssets } from '../../utils/assetHelper'
 
 // load initial state from localstorage, else generate initial portfolio
-const initialState = localStorage.getItem("portfolio") === null ? AssetHelper.generateInitialAssets() : JSON.parse(localStorage.getItem('portfolio'))
+const initialState = localStorage.getItem("portfolio") === null ? generateInitialAssets() : JSON.parse(localStorage.getItem('portfolio'))
 
 export const portfolioSlice = createSlice({
   name: 'portfolio',

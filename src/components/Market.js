@@ -20,7 +20,7 @@ const Market = () => {
         // fetch coin data from coingecko.com
         const response = await fetch(url)
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`HTTP error! status: ${response.status}`)
         }
         const data = await response.json()
         setMarketData(data)
@@ -79,6 +79,7 @@ const Market = () => {
                       <th scope="col" className="text-end">24h Change</th>
                       <th scope="col" className="text-end">Market Cap</th>
                       <th scope="col" className="text-end">7 Days</th>
+                      <th scope="col" className="text-end">Charts</th>
                       <th scope="col" className="text-end">Action</th>
                     </tr>
                   </thead>

@@ -1,5 +1,5 @@
 import { sum } from 'lodash'
-import AssetHelper, { getBalance } from './assetHelper'
+import { getBalance, generateTransactions, generateInitialAssets, AVAILABLE_ASSETS } from './assetHelper'
 
 
 it('shows correct balance', () => {
@@ -25,11 +25,11 @@ it('shows correct balance', () => {
 })
 
 it('generates transactions', () => {
-  const allTxs = AssetHelper.generateTransactions()
+  const allTxs = generateTransactions()
   expect(allTxs.length).toEqual(160)
 })
 
 it('creates assets correctly', () => {
-  const assets = AssetHelper.generateInitialAssets()
-  expect(assets.length).toEqual(AssetHelper.availableAssets.length)
+  const assets = generateInitialAssets()
+  expect(assets.length).toEqual(AVAILABLE_ASSETS.length)
 })

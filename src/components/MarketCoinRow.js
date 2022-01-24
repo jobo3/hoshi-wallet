@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 import Sparkline from './Sparkline'
 import { Link } from 'react-router-dom'
+import { AVAILABLE_ASSETS } from '../utils/assetHelper'
 
 /**
  * @param coin - element from coingecko market data
@@ -29,7 +30,12 @@ const MarketCoinRow = ({coin}) => {
       <td className={priceChangeClass}>{plus}{coin.price_change_percentage_24h.toFixed(2)+"%"}</td>
       <td className="text-end align-middle">{coin.market_cap.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 0})}</td>
       <td><Sparkline prices={coin.sparkline_in_7d.price} key={coin.id}/></td>
-      <td className="text-end align-middle"><Link to={`/market/${coin.id}`}><div className="btn btn-link text-decoration-none" style={{padding: "0px"}}>View</div></Link></td>
+      <td className="text-end align-middle">
+        <Link to={`/market/${coin.id}`}><div className="btn btn-link text-decoration-none" style={{padding: "0px"}}>View</div></Link>
+      </td>
+      <td className="text-end align-middle">
+        { AVAILABLE_ASSETS.includes(coin.id) ? <Link to={`/buy/${coin.id}`}><div className="btn btn-link text-decoration-none" style={{padding: "0px"}}>Buy</div></Link> : '-' }
+      </td>
     </tr>
   )
 }

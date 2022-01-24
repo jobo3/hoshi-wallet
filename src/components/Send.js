@@ -6,7 +6,7 @@ import { checkInputValidity, setAddressInputValidity, setSendAmountInputValidity
 import Big from 'big.js'
 import ConfirmModal from './ConfirmModal'
 import Toast from './Toast'
-import AssetHelper from '../utils/assetHelper'
+import { createOutgoingTransaction, getTxFee } from '../utils/assetHelper'
 import { newTx } from '../features/portfolio/portfolioSlice'
 
 const Send = () => {
@@ -82,7 +82,7 @@ const Send = () => {
     }
     try {
       let balance = portfolio.find(e => e.id === tx.asset_id).quantity
-      let createdTx = AssetHelper.createTransaction(balance, tx)
+      let createdTx = createOutgoingTransaction(balance, tx)
       console.log(createdTx)
       dispatch(newTx(createdTx))
       navigate(-1)
@@ -128,7 +128,7 @@ const Send = () => {
           <ConfirmModal title="Confirm Transaction" show={showModal} onClose={() => setShowModal(false)} onConfirm={sendTx}>
             <p className="text-break">Amount: {amount?.toString()}</p>
             <p className="text-break">Address: {address}</p>
-            <p className="text-break">Transaction fee: {AssetHelper.getTxFee(asset.id)}</p>
+            <p className="text-break">Transaction fee: {getTxFee(asset.id)}</p>
           </ConfirmModal>
           <Toast show={showToast} onClose={() => setShowToast(false)} message="Error" color="danger" delay={2000}></Toast>
         </div>
