@@ -9,6 +9,8 @@ $sidebar-bg-dark: #272b2f;
 $navbar-bg: royalblue;
 $navbar-bg-dark: #0d0d0d;
 
+@import "~bootstrap/scss/bootstrap";
+
 .dark {
 
   #content {
@@ -49,11 +51,14 @@ $navbar-bg-dark: #0d0d0d;
     color: #C8C8C8;
   }
 
+  .form-control, .form-select {
+    color: white;
+    background-color: #282c30;
+    border-color: var(--bs-gray);
+  }
+
   color: white;
 }
-
-
-@import "~bootstrap/scss/bootstrap";
 
 // mobile browser navbar fix
 body {

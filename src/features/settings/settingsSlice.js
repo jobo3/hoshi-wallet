@@ -3,7 +3,8 @@ import {createSlice} from '@reduxjs/toolkit'
 const defaultState = {
   displayCurrency: 'usd',
   darkMode: false,
-  mnemonic: null
+  mnemonic: null,
+  ui: 0 // UI state: 0 - rookie, 1 - trader, 2 - cypherpunk
 }
 
 // load from localstorage
@@ -24,10 +25,13 @@ export const settingsSlice = createSlice({
     },
     setMnemonic: (state, action) => {
       state.mnemonic = action.payload
+    },
+    setUI: (state, action) => {
+      state.ui = action.payload
     }
   }
 })
 
-export const {updatedSettings, setDisplayCurrency, setDarkMode, setMnemonic } = settingsSlice.actions
+export const {updatedSettings, setDisplayCurrency, setDarkMode, setMnemonic, setUI } = settingsSlice.actions
 
 export default settingsSlice.reducer

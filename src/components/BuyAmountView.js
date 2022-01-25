@@ -9,18 +9,10 @@ const BuyAmountView = () => {
 
   const { assetId } = useParams()
 
-  const asset = useSelector((state) => {
-    if (state.portfolio != null) 
-      return state.portfolio.find(e => e.id === assetId)
-    else
-      return null
-  })
+
   const assetMarketData = useSelector((state) => {
     let val = state.marketData?.find(e => e.id === assetId)
-    if (val === undefined) 
-      return null
-    else
-      return val
+    return val
   })
 
   const displayCurrency = useSelector((state) => state.settings.displayCurrency)
@@ -53,26 +45,28 @@ const BuyAmountView = () => {
 
   return (
     <>
-      { asset && assetMarketData ?
-        <div>
-          <div className="card mb-3">
-            <div className="card-body text-center">
-              <h2>Buy {assetMarketData.name}</h2>
-              <p className="fs-1">{purchaseValue.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 2})}</p>
-              <p className="text-muted">~{coinsAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 8}) + ' ' + assetMarketData.symbol.toUpperCase()}</p>
+      { assetMarketData === undefined ? <div>Error</div> :
+        ( assetMarketData ?
+          <div>
+            <div className="card mb-3">
+              <div className="card-body text-center">
+                <h2>Buy {assetMarketData.name}</h2>
+                <p className="fs-1">{purchaseValue.toLocaleString('en-US', {style:'currency', currency: displayCurrency, maximumFractionDigits: 2})}</p>
+                <p className="text-muted">~{coinsAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 8}) + ' ' + assetMarketData.symbol.toUpperCase()}</p>
+              </div>
             </div>
-          </div>
-          <div className="card">
-            <div className="card-body">
-              <div>
-                <label htmlFor="purchaseValueInput" className="form-label">Purchase Value ({displayCurrency.toUpperCase()})</label>
-                <input type="number" value={purchaseValue === 0 ? '' : purchaseValue} className="form-control" id="purchaseValueInput" aria-describedby="purchase value input" min="0.00" max="10000.00" step="1" onChange={handlePurchaseValueChange} />
-                <button type="button" className="btn btn-primary mt-3" onClick={handleClickOnBuyButton}>Buy</button>
+            <div className="card">
+              <div className="card-body">
+                <div>
+                  <label htmlFor="purchaseValueInput" className="form-label">Purchase Value ({displayCurrency.toUpperCase()})</label>
+                  <input type="number" value={purchaseValue === 0 ? '' : purchaseValue} className="form-control" id="purchaseValueInput" aria-describedby="purchase value input" min="0.00" max="10000.00" step="1" onChange={handlePurchaseValueChange} />
+                  <button type="button" className="btn btn-primary mt-3" onClick={handleClickOnBuyButton}>Buy</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        : <Spinner/>
+          : <Spinner/>
+        )
       }
     </>
   )

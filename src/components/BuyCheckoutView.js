@@ -5,6 +5,7 @@ import Big from 'big.js'
 import { roundAssetDown, createIncomingTransaction } from '../utils/assetHelper'
 import { newTx } from '../features/portfolio/portfolioSlice'
 import HDWallet from '../utils/hdWallet'
+import Spinner from './Spinner'
 
 const BuyCheckoutView = () => {
 
@@ -16,13 +17,16 @@ const BuyCheckoutView = () => {
     purchaseValue = new Big(searchParams.get('value'))
   } catch (error) {}
   let displayCurrency = searchParams.get('currency')
+  try {
+    // if the currency is not supported this will throw an error
+    new Number(1).toLocaleString('en-US', {style:'currency', currency: displayCurrency})
+  } catch(error) {
+    displayCurrency = null
+  }
 
   const assetMarketData = useSelector((state) => {
     let val = state.marketData?.find(e => e.id === assetId)
-    if (val === undefined) 
-      return null
-    else
-      return val
+    return val
   })
 
   const portfolio = useSelector((state) => state.portfolio)
@@ -65,14 +69,15 @@ const BuyCheckoutView = () => {
 
   const [coinsAmount, setCoinsAmount] = useState(0)
   useEffect(() => {
-    if (assetMarketData != null) {
+    if (assetMarketData != null && purchaseValue != null) {
       setCoinsAmount( roundAssetDown((purchaseValue.div(assetMarketData.current_price).toNumber()), fractionDigits) )
     }
   }, [assetMarketData, purchaseValue])
 
   return (
     <>
-      { assetMarketData && displayCurrency && purchaseValue ?
+      { assetMarketData == null ? <></> : 
+      ( displayCurrency && purchaseValue ?
       <div>
         <div className="card mt-3 mb-3">
           <div className="card-body text-center">
@@ -138,7 +143,7 @@ const BuyCheckoutView = () => {
                 </div>
                 <div className="col-sm-4 mb-3">
                   <label htmlFor="ccCVV" className="form-label">CVV</label>
-                  <input type="text" className="form-control" id="ccCVV" pattern="[0-9]{3}" required/>
+                  <input type="tel" className="form-control" id="ccCVV" pattern="[0-9]{3}" required/>
                   <div className="valid-feedback">
                     Looks good!
                   </div>
@@ -151,9 +156,7 @@ const BuyCheckoutView = () => {
             </form>
           </div>
         </div>
-      </div>
-      :
-      <div></div>
+      </div> : <div>Error</div> )
       }
     </>
   )

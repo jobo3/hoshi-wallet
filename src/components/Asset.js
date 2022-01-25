@@ -52,7 +52,7 @@ const Asset = () => {
               </div>
               <div className="d-flex justify-content-center">
                 <div className="d-grid col-3 col-lg-2 me-2">
-                <button className="btn btn-primary" style={{height: "2.7rem"}} type="button" onClick={handleClickOnSendButton}>Send</button>
+                  <button className="btn btn-primary" style={{height: "2.7rem"}} type="button" onClick={handleClickOnSendButton}>Send</button>
                 </div>
                 <div className="d-grid col-3 col-lg-2">
                   <button className="btn btn-primary" type="button" style={{height: "2.7rem"}} onClick={handleClickOnReceiveButton}>Receive</button>
