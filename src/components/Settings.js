@@ -6,7 +6,7 @@ const Settings = () => {
 
   const displayCurrency = useSelector(state => state.settings.displayCurrency)
   const darkMode = useSelector(state => state.settings.darkMode)
-  const uiMode = useSelector(state => state.settings.uiMode)
+  const uiMode = useSelector(state => state.settings.ui)
   const dispatch = useDispatch()
 
   const handleDarkModeSwitch = (e) => {
@@ -21,7 +21,7 @@ const Settings = () => {
 
   const handleSelectUi = (e) => {
     let value = e.target.value
-    dispatch(setUI(value))
+    dispatch(setUI(Number(value)))
   }
 
   return (

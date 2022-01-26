@@ -12,6 +12,7 @@ import classNames from 'classnames'
 import WalletSetup from './components/WalletSetup'
 import MainView from './components/MainView'
 import { useEffect } from 'react'
+import PriceAlertWatcher from './components/PriceAlertWatcher'
 
 const App = () => {
 
@@ -37,7 +38,7 @@ const App = () => {
   return (
       <div className={appClasses}>
           <Routes>
-            <Route path="/*" element={<><DataFetcher/><MainView/></>} />
+            <Route path="/*" element={<><DataFetcher/><PriceAlertWatcher/><MainView/></>} />
             <Route path="/setup/*" element={<WalletSetup/>} />
           </Routes>
       </div>

@@ -12,6 +12,7 @@ store.subscribe(() => {
     // save settings and portfolio
     localStorage.setItem('settings', JSON.stringify(state.settings))
     localStorage.setItem('portfolio', JSON.stringify(state.portfolio))
+    localStorage.setItem('priceAlerts', JSON.stringify(state.priceAlerts))
   } catch(error) {
     console.log(error)
   }

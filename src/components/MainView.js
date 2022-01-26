@@ -16,8 +16,14 @@ import Settings from './Settings'
 import Market from './Market'
 import ChartView from './ChartView'
 import BuyAsset from './BuyAsset'
+import { useSelector } from 'react-redux'
+import PriceAlertView from './PriceAlertView'
+
 
 const MainView = () => {
+
+  const uiMode = useSelector(state => state.settings.ui)
+
   return (
     <>
       <header>
@@ -42,6 +48,14 @@ const MainView = () => {
               Settings
             </NavLink>
           </SidebarItem>
+          { uiMode > 0 && // uiMode trader or cypherpunk
+            <SidebarItem>
+              <NavLink to="/alerts" className="nav-link link-light">
+                <i className="bi bi-bell me-2"></i>
+                Alerts
+              </NavLink>
+            </SidebarItem>
+          }
         </Sidebar>
         <div id="content" className="container-fluid overflow-auto">
           <div className="mx-auto mb-5">
@@ -55,6 +69,7 @@ const MainView = () => {
               <Route path="market/:coinId" element={<ChartView/>} />
               <Route path="settings" element={<Settings/>} />
               <Route path="buy/:assetId/*" element={<BuyAsset/>} /> 
+              <Route path="alerts" element={<PriceAlertView/>} />
               <Route path="*" element={<div>Page not found</div>} />
             </Routes>
           </div>

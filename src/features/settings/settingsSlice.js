@@ -8,7 +8,7 @@ const defaultState = {
 }
 
 // load from localstorage
-const initialState = localStorage.getItem("settings") === null ?  defaultState: JSON.parse(localStorage.getItem('settings'))
+const initialState = localStorage.getItem("settings") === null ? defaultState: JSON.parse(localStorage.getItem('settings'))
 
 export const settingsSlice = createSlice({
   name: 'settings',
