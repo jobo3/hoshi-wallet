@@ -12,7 +12,7 @@ export const AVAILABLE_ASSETS = ['bitcoin', 'ethereum', 'litecoin', 'dogecoin']
   txs.forEach( tx => {
     let amount = new Big(tx.amount)
     let fee = new Big(tx.fee)
-    if (tx.in) balance = balance.add(amount)
+    if (tx.incoming) balance = balance.add(amount)
     else balance = balance.minus(amount).minus(fee)
   })
   return balance.toNumber()
@@ -74,13 +74,13 @@ export function generateIncomingTransactions(asset, n) {
   let incomingTxs = []
   for (let i = 0; i < n; i++) {
     let tx = {
-      "state": "RECEIVED",
-      "fee": getTxFee(asset),
-      "amount": getRandomTxAmount(asset),
-      "date": getRandomDate(365).toISOString(),
-      "in": true,
-      "asset_id": asset,
-      "tx_id": getRandomHash(32)
+      state: "RECEIVED",
+      fee: getTxFee(asset),
+      amount: getRandomTxAmount(asset),
+      date: getRandomDate(365).toISOString(),
+      incoming: true,
+      asset_id: asset,
+      tx_id: getRandomHash(32)
     }
     incomingTxs.push(tx)
   }
@@ -92,13 +92,13 @@ export function generateOutgoingTransactions(asset, n) {
   let outgoingTxs = []
   for (let i = 0; i < n; i++) {
     let tx = {
-      "state": "SENT",
-      "fee": getTxFee(asset),
-      "amount": Number(new Big(getRandomTxAmount(asset)).div(new Big(10)).toFixed(5)),
-      "date": getRandomDate(30).toISOString(),
-      "in": false,
-      "asset_id": asset,
-      "tx_id": getRandomHash(32)
+      state: "SENT",
+      fee: getTxFee(asset),
+      amount: Number(new Big(getRandomTxAmount(asset)).div(new Big(10)).toFixed(5)),
+      date: getRandomDate(30).toISOString(),
+      incoming: false,
+      asset_id: asset,
+      tx_id: getRandomHash(32)
     }
     outgoingTxs.push(tx)
   }
@@ -151,7 +151,7 @@ export function createOutgoingTransaction(balance, tx) {
       fee: fee,
       tx_id: getRandomHash(32),
       date: new Date().toISOString(),
-      in: false,
+      incoming: false,
       state: "PENDING"
     }
 
@@ -176,7 +176,7 @@ export function createIncomingTransaction(tx) {
       fee: fee,
       tx_id: getRandomHash(32),
       date: new Date().toISOString(),
-      in: true,
+      incoming: true,
       state: "PENDING"
     }
 

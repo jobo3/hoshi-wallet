@@ -21,7 +21,7 @@ export const portfolioSlice = createSlice({
         let balance = new Big(state[index].quantity)
         let amount = new Big(tx.amount)
         let fee = new Big(tx.fee)
-        if (tx.in) balance = balance.add(amount)
+        if (tx.incoming) balance = balance.add(amount)
         else balance = balance.minus(amount).minus(fee)
         state[index].quantity = balance.toNumber()
       }

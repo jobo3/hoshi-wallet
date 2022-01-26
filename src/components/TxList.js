@@ -34,16 +34,16 @@ export const TxList = ({ assetId, symbol }) => {
                   gtxs.map((tx, j) => {
                     const amountClasses = classNames({
                       'text-end': true,
-                      'text-success': tx.in,
-                      'text-danger': !tx.in
+                      'text-success': tx.incoming,
+                      'text-danger': !tx.incoming
                     })
-                    const sign = tx.in ? "+" : "-"
+                    const sign = tx.incoming ? "+" : "-"
                     return <div key={j}>
                       <div className="card mb-2">
                         <div className="card-body">
                           <div className="d-flex flex-row"> 
                             <div className="align-self-center me-2">
-                              { tx.in ?
+                              { tx.incoming ?
                                   <div><i className="bi bi-box-arrow-in-down"></i></div>
                                 :
                                   <div><i className="bi bi-box-arrow-up"></i></div>
