@@ -45,8 +45,7 @@ const PriceAlertWatcher = () => {
         // 7 days price alerts
         let sparklinePrices = asset.sparkline_in_7d.price
         let priceChange7days = (sparklinePrices[sparklinePrices.length-1] - sparklinePrices[0]) / asset.current_price * 100
-        console.log("price change 7d: ",priceChange7days)
-        if (Math.abs(priceChange7days) > MAX_PRICE_CHANGE_24H) {
+        if (Math.abs(priceChange7days) > MAX_PRICE_CHANGE_7D) {
           let now = new Date()
           let lastWeek = sub(now, {day: 7})
           // check if a price alert for this asset has already been triggered
