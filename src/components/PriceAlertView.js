@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { hidePriceAlert } from '../features/pricealerts/priceAlertsSlice'
-import { MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D } from './PriceAlertWatcher'
+import { MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D } from '../utils/priceAlert'
 
 const PriceAlertView = () => {
 
