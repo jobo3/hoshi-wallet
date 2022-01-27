@@ -23,6 +23,7 @@ import PriceAlertView from './PriceAlertView'
 const MainView = () => {
 
   const uiMode = useSelector(state => state.settings.ui)
+  const unseenAlert = useSelector(state => state.priceAlerts.find(e => !e.hidden))
 
   return (
     <>
@@ -51,8 +52,11 @@ const MainView = () => {
           { uiMode > 0 && // uiMode trader or cypherpunk
             <SidebarItem>
               <NavLink to="/alerts" className="nav-link link-light">
-                <i className="bi bi-bell me-2"></i>
-                Alerts
+                <div className="position-relative">
+                  <i className="bi bi-bell me-2"></i>
+                  { unseenAlert !== undefined && <span class="position-absolute top-50 start-100 translate-middle badge rounded-circle bg-danger p-1"><span class="visually-hidden">unseen alerts</span></span> }
+                  Alerts
+                </div>
               </NavLink>
             </SidebarItem>
           }

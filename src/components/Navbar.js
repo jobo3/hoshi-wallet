@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 const Navbar = () => {
 
   const uiMode = useSelector(state => state.settings.ui)
+  const unseenAlert = useSelector(state => state.priceAlerts.find(e => !e.hidden))
 
   return (
     <div>
@@ -29,7 +30,10 @@ const Navbar = () => {
             { uiMode > 0 && // uiMode trader or cypherpunk
               <li className="nav-item">
                 <NavLink to="/alerts" className="nav-link link-light">
-                  <i className="bi bi-bell me-2" />
+                  <div className="position-relative">
+                    <i className="bi bi-bell" />
+                    { unseenAlert !== undefined && <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1"><span class="visually-hidden">unseen alerts</span></span> }
+                  </div>
                 </NavLink>
               </li>
             }
