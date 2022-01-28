@@ -805,7 +805,7 @@ const marketData = [
 
 it('should create the correct number of alerts', () => {
   let asset = marketData.find(e => e.id === "bitcoin")
-  // last 24h alert was less than 24 hours ago
+  // last 24h alert was today UTC
   let priceAlerts = [
     {
       id: 'd2d4a789-e7c8-4559-98c8-9ea35c5521f2',
@@ -813,7 +813,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Bitcoin',
       price_increased: false,
       price_change: -4.9038,
-      date: '2022-01-25T00:00:00',
+      date: '2022-01-25T00:00:01.000Z',
       days: 1,
       hidden: false
     }
@@ -822,7 +822,7 @@ it('should create the correct number of alerts', () => {
     //console.log("callback: new alert: ", alert)
     priceAlerts.push(alert)
   }
-  let now = new Date('2022-01-25T23:59:59')
+  let now = new Date('2022-01-25T23:59:59.000Z')
   checkPriceAlerts(now, asset, priceAlerts, callback)
   expect(priceAlerts.length).toEqual(1)
   // last 24h alert was more than 24 hours ago
@@ -833,7 +833,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Bitcoin',
       price_increased: false,
       price_change: -4.9038,
-      date: '2022-01-25T00:00:00',
+      date: '2022-01-25T00:00:00.000Z',
       days: 1,
       hidden: false
     }
@@ -853,7 +853,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Bitcoin',
       price_increased: false,
       price_change: -4.9038,
-      date: '2022-01-02T00:00:00',
+      date: '2022-01-02T00:00:00.000Z',
       days: 1,
       hidden: false
     },
@@ -863,7 +863,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Bitcoin',
       price_increased: false,
       price_change: -23.43,
-      date: '2022-01-02T00:00:00',
+      date: '2022-01-02T00:00:00.000Z',
       days: 7,
       hidden: false
     }
@@ -872,10 +872,10 @@ it('should create the correct number of alerts', () => {
     //console.log("callback3: new alert: ", alert)
     priceAlerts.push(alert)
   }
-  now = new Date('2022-01-26T00:00:01')
+  now = new Date('2022-01-26T00:00:01.000Z')
   checkPriceAlerts(now, asset, priceAlerts, callback3)
   expect(priceAlerts.length).toEqual(3)
-  now = new Date('2022-01-26T00:00:04')
+  now = new Date('2022-01-26T00:00:04.000Z')
   checkPriceAlerts(now, asset, priceAlerts, callback3)
   expect(priceAlerts.length).toEqual(3)
   // last 7d alert was less than 7 days ago
@@ -886,7 +886,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Bitcoin',
       price_increased: false,
       price_change: -4.9038,
-      date: '2022-01-26T10:00:00',
+      date: '2022-01-26T10:00:00.000Z',
       days: 1,
       hidden: false
     },
@@ -896,7 +896,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Bitcoin',
       price_increased: false,
       price_change: -23.43,
-      date: '2022-01-21T00:00:00',
+      date: '2022-01-21T00:00:00.000Z',
       days: 7,
       hidden: false
     }
@@ -926,7 +926,7 @@ it('should create the correct number of alerts', () => {
       asset_name: 'Ethereum',
       price_increased: false,
       price_change: -29.57125827585072,
-      date: '2022-01-21T20:40:33',
+      date: '2022-01-21T20:40:33.000Z',
       days: 7,
       hidden: false
     }
@@ -936,7 +936,7 @@ it('should create the correct number of alerts', () => {
     //console.log("callback5: new alert: ", alert)
     priceAlerts.push(alert)
   }
-  now = new Date('2022-01-27T00:00:04')
+  now = new Date('2022-01-27T00:00:04.000Z')
   checkPriceAlerts(now, asset, priceAlerts, callback5)
   expect(priceAlerts.length).toEqual(3)
 })
@@ -947,7 +947,7 @@ it('should create the first alert correctly', () => {
   let callback = (alert) => {
     priceAlerts.push(alert)
   }
-  let now = new Date('2022-01-25T23:59:59')
+  let now = new Date('2022-01-25T23:59:59.000Z')
   checkPriceAlerts(now, asset, priceAlerts, callback)
   expect(priceAlerts.length).toEqual(2)
 })

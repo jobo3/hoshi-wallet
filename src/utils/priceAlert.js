@@ -15,11 +15,12 @@ export const checkPriceAlerts = (now, asset, priceAlerts, callback) => {
    // 24 hours price alerts
    let priceChange24h = asset.price_change_percentage_24h
    if (Math.abs(priceChange24h) > MAX_PRICE_CHANGE_24H) {
-     let yesterday = sub(now, {days: 1})
+     let todayMidnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
      let currentAssetPriceAlerts = priceAlerts.filter(e => e.asset_id === asset.id && e.days === 1)
-     // was there a price alert for this asset in the last 24 hours?
+     // has there already been a price alert for this asset today?
      let oldAlert = currentAssetPriceAlerts.find(e => {
-       return isAfter(new Date(e.date), yesterday)
+       let alertDate = new Date(e.date)
+       return isAfter(alertDate, todayMidnightUTC)
      })
      if (oldAlert === undefined) {
        let alert = {
@@ -28,7 +29,7 @@ export const checkPriceAlerts = (now, asset, priceAlerts, callback) => {
          asset_name: asset.name,
          price_increased: Math.sign(priceChange24h) === 1 ? true : false,
          price_change: priceChange24h,
-         date: new Date().toISOString(),
+         date: now.toISOString(),
          days: 1, // time period
          hidden: false
        }
@@ -43,7 +44,8 @@ export const checkPriceAlerts = (now, asset, priceAlerts, callback) => {
      let currentAssetPriceAlerts = priceAlerts.filter(e => e.asset_id === asset.id && e.days === 7)
      // was there a price alert for this asset in the last 7 days?
      let oldAlert = currentAssetPriceAlerts.find(e => {
-       return isAfter(new Date(e.date), lastWeek)
+       let alertDate = new Date(e.date)
+       return isAfter(alertDate, lastWeek)
      })
      if (oldAlert === undefined) {
        let alert = {
@@ -52,7 +54,7 @@ export const checkPriceAlerts = (now, asset, priceAlerts, callback) => {
          asset_name: asset.name,
          price_increased: Math.sign(priceChange7days) === 1 ? true : false,
          price_change: priceChange7days,
-         date: new Date().toISOString(),
+         date: now.toISOString(),
          days: 7, // time period
          hidden: false
        }
