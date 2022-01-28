@@ -18,6 +18,8 @@ import ChartView from './ChartView'
 import BuyAsset from './BuyAsset'
 import { useSelector } from 'react-redux'
 import PriceAlertView from './PriceAlertView'
+import DataFetcher from './DataFetcher'
+import PriceAlertWatcher from './PriceAlertWatcher'
 
 
 const MainView = () => {
@@ -27,8 +29,9 @@ const MainView = () => {
 
   return (
     <>
-      <header>
-      </header>
+      <DataFetcher/>
+      { uiMode > 0 && <PriceAlertWatcher/> } 
+      <header></header>
       <div className="main">
         <Sidebar>
           <SidebarItem>
@@ -52,11 +55,11 @@ const MainView = () => {
           { uiMode > 0 && // uiMode trader or cypherpunk
             <SidebarItem>
               <NavLink to="/alerts" className="nav-link link-light">
-                <div className="position-relative">
-                  <i className="bi bi-bell me-2"></i>
-                  { unseenAlert !== undefined && <span class="position-absolute top-50 start-100 translate-middle badge rounded-circle bg-danger p-1"><span class="visually-hidden">unseen alerts</span></span> }
-                  Alerts
+                <div className="position-relative d-inline-block me-2">
+                  <i className="bi bi-bell"></i>
+                  { unseenAlert !== undefined && <span className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1"><span className="visually-hidden">unseen alerts</span></span> }
                 </div>
+                <div className="d-inline-block">Alerts</div>
               </NavLink>
             </SidebarItem>
           }

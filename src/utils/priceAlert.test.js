@@ -803,6 +803,9 @@ const marketData = [
   }
 ]
 
+const MAX_PRICE_CHANGE_24H = 3
+const MAX_PRICE_CHANGE_7D = 20
+
 it('should create the correct number of alerts', () => {
   let asset = marketData.find(e => e.id === "bitcoin")
   // last 24h alert was today UTC
@@ -811,7 +814,6 @@ it('should create the correct number of alerts', () => {
       id: 'd2d4a789-e7c8-4559-98c8-9ea35c5521f2',
       asset_id: 'bitcoin',
       asset_name: 'Bitcoin',
-      price_increased: false,
       price_change: -4.9038,
       date: '2022-01-25T00:00:01.000Z',
       days: 1,
@@ -823,15 +825,14 @@ it('should create the correct number of alerts', () => {
     priceAlerts.push(alert)
   }
   let now = new Date('2022-01-25T23:59:59.000Z')
-  checkPriceAlerts(now, asset, priceAlerts, callback)
-  expect(priceAlerts.length).toEqual(1)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback)
+  expect(priceAlerts.filter(e => e.days === 1).length).toEqual(1)
   // last 24h alert was more than 24 hours ago
   priceAlerts = [
     {
       id: 'd2d4a789-e7c8-4559-98c8-9ea35c5521f2',
       asset_id: 'bitcoin',
       asset_name: 'Bitcoin',
-      price_increased: false,
       price_change: -4.9038,
       date: '2022-01-25T00:00:00.000Z',
       days: 1,
@@ -843,15 +844,14 @@ it('should create the correct number of alerts', () => {
     priceAlerts.push(alert)
   }
   now = new Date('2022-01-26T00:00:01')
-  checkPriceAlerts(now, asset, priceAlerts, callback2)
-  expect(priceAlerts.length).toEqual(2)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback2)
+  expect(priceAlerts.filter(e => e.days === 1).length).toEqual(2)
   // more alerts
   priceAlerts = [
     {
       id: 'd2d4a789-e7c8-4559-98c8-9ea35c5521f2',
       asset_id: 'bitcoin',
       asset_name: 'Bitcoin',
-      price_increased: false,
       price_change: -4.9038,
       date: '2022-01-02T00:00:00.000Z',
       days: 1,
@@ -861,7 +861,6 @@ it('should create the correct number of alerts', () => {
       id: '1214fd26-398c-4f0f-83d1-4fd10f0a2870',
       asset_id: 'bitcoin',
       asset_name: 'Bitcoin',
-      price_increased: false,
       price_change: -23.43,
       date: '2022-01-02T00:00:00.000Z',
       days: 7,
@@ -873,10 +872,10 @@ it('should create the correct number of alerts', () => {
     priceAlerts.push(alert)
   }
   now = new Date('2022-01-26T00:00:01.000Z')
-  checkPriceAlerts(now, asset, priceAlerts, callback3)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback3)
   expect(priceAlerts.length).toEqual(3)
   now = new Date('2022-01-26T00:00:04.000Z')
-  checkPriceAlerts(now, asset, priceAlerts, callback3)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback3)
   expect(priceAlerts.length).toEqual(3)
   // last 7d alert was less than 7 days ago
   priceAlerts = [
@@ -884,7 +883,6 @@ it('should create the correct number of alerts', () => {
       id: 'd2d4a789-e7c8-4559-98c8-9ea35c5521f2',
       asset_id: 'bitcoin',
       asset_name: 'Bitcoin',
-      price_increased: false,
       price_change: -4.9038,
       date: '2022-01-26T10:00:00.000Z',
       days: 1,
@@ -894,7 +892,6 @@ it('should create the correct number of alerts', () => {
       id: '1214fd26-398c-4f0f-83d1-4fd10f0a2870',
       asset_id: 'bitcoin',
       asset_name: 'Bitcoin',
-      price_increased: false,
       price_change: -23.43,
       date: '2022-01-21T00:00:00.000Z',
       days: 7,
@@ -906,7 +903,7 @@ it('should create the correct number of alerts', () => {
     priceAlerts.push(alert)
   }
   now = new Date('2022-01-26T00:00:04')
-  checkPriceAlerts(now, asset, priceAlerts, callback4)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback4)
   expect(priceAlerts.length).toEqual(2)
   // last 7d alert was more than 7 days ago
   priceAlerts = [
@@ -914,7 +911,6 @@ it('should create the correct number of alerts', () => {
       id: 'b9ac909b-7385-4596-91cd-f9dd39cb1296',
       asset_id: 'ethereum',
       asset_name: 'Ethereum',
-      price_increased: false,
       price_change: -5.54975,
       date: '2022-01-27T20:40:33.594Z',
       days: 1,
@@ -924,7 +920,6 @@ it('should create the correct number of alerts', () => {
       id: 'e59920f2-0e87-4a91-ba13-0f5acb4a3532',
       asset_id: 'ethereum',
       asset_name: 'Ethereum',
-      price_increased: false,
       price_change: -29.57125827585072,
       date: '2022-01-21T20:40:33.000Z',
       days: 7,
@@ -937,7 +932,7 @@ it('should create the correct number of alerts', () => {
     priceAlerts.push(alert)
   }
   now = new Date('2022-01-27T00:00:04.000Z')
-  checkPriceAlerts(now, asset, priceAlerts, callback5)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback5)
   expect(priceAlerts.length).toEqual(3)
 })
 
@@ -948,6 +943,6 @@ it('should create the first alert correctly', () => {
     priceAlerts.push(alert)
   }
   let now = new Date('2022-01-25T23:59:59.000Z')
-  checkPriceAlerts(now, asset, priceAlerts, callback)
+  checkPriceAlerts(now, asset, priceAlerts, MAX_PRICE_CHANGE_24H, MAX_PRICE_CHANGE_7D, callback)
   expect(priceAlerts.length).toEqual(2)
 })

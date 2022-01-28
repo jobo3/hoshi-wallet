@@ -32,7 +32,7 @@ const Navbar = () => {
                 <NavLink to="/alerts" className="nav-link link-light">
                   <div className="position-relative">
                     <i className="bi bi-bell" />
-                    { unseenAlert !== undefined && <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1"><span class="visually-hidden">unseen alerts</span></span> }
+                    { unseenAlert !== undefined && <span className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1"><span className="visually-hidden">unseen alerts</span></span> }
                   </div>
                 </NavLink>
               </li>

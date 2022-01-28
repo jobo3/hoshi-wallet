@@ -5,14 +5,11 @@ import {
 } from 'react-router-dom'
 
 import './App.scss'
-import DataFetcher from './components/DataFetcher'
-
 import { useSelector } from 'react-redux'
 import classNames from 'classnames'
 import WalletSetup from './components/WalletSetup'
 import MainView from './components/MainView'
 import { useEffect } from 'react'
-import PriceAlertWatcher from './components/PriceAlertWatcher'
 
 const App = () => {
 
@@ -38,7 +35,7 @@ const App = () => {
   return (
       <div className={appClasses}>
           <Routes>
-            <Route path="/*" element={<><DataFetcher/><PriceAlertWatcher/><MainView/></>} />
+            <Route path="/*" element={<MainView/>} />
             <Route path="/setup/*" element={<WalletSetup/>} />
           </Routes>
       </div>
