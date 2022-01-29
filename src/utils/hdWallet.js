@@ -129,5 +129,14 @@ export default class HDWallet {
         throw new Error("Asset is not supported")
     }
   }
-  
+
+  // export wallet's root extended private key
+  exportXpriv() {
+    return this.root.toBase58()
+  }
+
+  // export wallet's root extended public key
+  exportXpub() {
+    return this.root.neutered().toBase58()
+  }
 }
