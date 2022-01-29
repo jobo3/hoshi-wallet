@@ -56,6 +56,26 @@ export function roundAssetDown(number, fractionDigits) {
   return Math.floor(number*Math.pow(10,fractionDigits)) / Math.pow(10,fractionDigits)
 }
 
+// for Send component
+export function getAmountStep(asset) {
+  switch(asset) {
+    case 'bitcoin': return '0.0001'
+    case 'ethereum': return '0.001'
+    case 'litecoin': return '0.1'
+    case 'dogecoin': return '10'
+    default: return '0.0001'
+  }
+}
+
+export function getTxFeeStep(asset) {
+  switch(asset) {
+    case 'bitcoin': return '0.000001'
+    case 'ethereum': return '0.001'
+    case 'litecoin': return '0.00001'
+    case 'dogecoin': return '1'
+    default: return '0.0001'
+  }
+}
 
 // object containing asset -> average tx fee mapping
 export const txFeeMap = {

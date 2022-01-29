@@ -68,23 +68,13 @@ const Receive = () => {
   }, [assetId, address, qrimage, receivingAmount])
 
 
-  const amountDiv = useRef(null)
-
-  const toggleAmountDiv = () => {
-    if (amountDiv && amountDiv.current) {
-      amountDiv.current.classList.toggle("d-none")
-    }
-  }
-
   const cryptoAddressRef = useRef(null)
   const [showToast, setShowToast] = useState(false)
 
   const copyAddressToClipboard = () => {
     const cryptoAddressEl = cryptoAddressRef.current
     let text = cryptoAddressEl.innerText
-
-    copy(text, {debug: true})
-
+    copy(text)
     setShowToast(true)
   }
 
@@ -121,10 +111,9 @@ const Receive = () => {
                     <hr></hr>
                     <div className="d-flex justify-content-center">
                       <button type="button" className="btn btn-primary me-2" onClick={() => copyAddressToClipboard()}><i className="bi bi-clipboard"></i> Copy</button>
-                      <button type="button" className="btn btn-primary" onClick={() => toggleAmountDiv()}><i className="bi bi-currency-dollar"></i> Amount</button>
                     </div>
-                    <div ref={amountDiv} className="d-none mt-3">
-                        <label htmlFor="amountInput" className="form-label">Amount</label>
+                    <div className="mt-3">
+                        <label htmlFor="amountInput" className="form-label">{assetMarketData.symbol.toUpperCase()} Amount (Optional)</label>
                         <div className="input-group">
                           <input type="number" min="0" step="any" className="form-control" id="amountInput" ref={amountInputRef} onChange={handleAmountInput} placeholder="" />
                           <button type="button" className="btn btn-primary" style={{ minWidth: "60px" }} onClick={validateAndSubmitAmountInput}>Set</button>

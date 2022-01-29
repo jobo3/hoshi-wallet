@@ -5,7 +5,6 @@ import Big from 'big.js'
 import { roundAssetDown, createIncomingTransaction } from '../utils/assetHelper'
 import { newTx } from '../features/portfolio/portfolioSlice'
 import HDWallet from '../utils/hdWallet'
-import Spinner from './Spinner'
 
 const BuyCheckoutView = () => {
 

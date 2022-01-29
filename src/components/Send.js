@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from './Spinner'
-import { checkInputValidity, setAddressInputValidity, setSendAmountInputValidity } from '../utils/validity'
+import { checkInputValidity, setAddressInputValidity, setFeeInputValidity, setSendAmountInputValidity } from '../utils/validity'
 import Big from 'big.js'
 import ConfirmModal from './ConfirmModal'
 import Toast from './Toast'
-import { createOutgoingTransaction, getTxFee } from '../utils/assetHelper'
+import { createOutgoingTransaction, getAmountStep, getTxFee, getTxFeeStep } from '../utils/assetHelper'
 import { newTx } from '../features/portfolio/portfolioSlice'
 
 const Send = () => {
@@ -26,10 +26,8 @@ const Send = () => {
 
   const addressInputRef = useRef(null)
   const [address, setAddress] = useState(null)
-  
 
-  // TODO: set the smallest unit for the currency
-  // TODO: fee control
+  const [invalidAmountFeedback, setInvalidAmountFeedback] = useState('')
 
   useEffect(() => {
     if (marketData && asset) {
@@ -38,25 +36,22 @@ const Send = () => {
     }
   }, [marketData, asset])
 
-  const validateAmount = () => {
-    const input = amountInputRef.current
-    setSendAmountInputValidity(input, asset.quantity)
-    checkInputValidity(input)
-  }
+  // tx fee for cypherpunk ui
+  const uiMode = useSelector(state => state.settings.ui)
+  const [txFee, setTxFee] = useState(null)
+  const [invalidFeeFeedback, setInvalidFeeFeedback] = useState('')
+  const feeInputRef = useRef(null)
 
-  const validateAddress = () => {
-    const input = addressInputRef.current
-    setAddressInputValidity(input, assetId)
-    checkInputValidity(input)
-  }
-
-  const handleSend = () => {
+  const handleSend = (e) => {
+    e.preventDefault()
     const amountInput = amountInputRef.current
     const addressInput = addressInputRef.current
-    setSendAmountInputValidity(amountInput, asset.quantity)
+    const feeInput = feeInputRef.current
+    let amountFeedback = setSendAmountInputValidity(amountInput, asset.quantity)
+    setInvalidAmountFeedback(amountFeedback)
     let isAmountValid = checkInputValidity(amountInput)
     if (isAmountValid) {
-      setAmount(Big(amountInput.value))
+      setAmount(Number.parseFloat(amountInput.value))
     }
     setAddressInputValidity(addressInput, assetId)
     let isAddressValid = checkInputValidity(addressInput)
@@ -64,9 +59,25 @@ const Send = () => {
       setAddress(addressInput.value)
     }
 
-    // if amount and address are valid continue
-    if (isAddressValid && isAmountValid) {
-      setShowModal(true)
+    if (uiMode === 2) { // manual fee
+      let feeFeedback = setFeeInputValidity(feeInput, asset.quantity)
+      let isFeeValid = checkInputValidity(feeInput)
+      if (isFeeValid) {
+        setTxFee(Number.parseFloat(feeInput.value))
+      }
+      else {
+        setInvalidFeeFeedback(feeFeedback)
+      }
+
+      if (isAddressValid && isAmountValid && isFeeValid) {
+        setShowModal(true)
+      }
+    }
+    else {
+      // if amount and address are valid continue
+      if (isAddressValid && isAmountValid) {
+        setShowModal(true)
+      }
     }
 
   } 
@@ -79,15 +90,15 @@ const Send = () => {
       asset_id: assetId,
       address: address,
       amount: amount.toNumber(),
+      fee: txFee
     }
     try {
       let balance = portfolio.find(e => e.id === tx.asset_id).quantity
       let createdTx = createOutgoingTransaction(balance, tx)
-      console.log(createdTx)
+      //console.log(createdTx)
       dispatch(newTx(createdTx))
       navigate(-1)
     } catch(error) {
-      console.error(error)
       setShowToast(true)
     }
     setShowModal(false)
@@ -104,21 +115,27 @@ const Send = () => {
             <div className="card">
               <div className="card-body">
                 <div>
-                    <form>
+                    <form className="needs-validation" onSubmit={handleSend} noValidate>
                       <div className="mb-3">
                         <label htmlFor="addressInput" className="form-label">Address</label>
-                        <div className="input-group">
-                          <input type="text" className="form-control" id="addressInput" ref={addressInputRef} onChange={validateAddress}/>
-                          {/* <button class="btn btn-secondary" type="button" id="pasteAddressBtn">Paste</button> */}
-                        </div>
-                      </div>
-                      <div className="mb-4">
-                        <label htmlFor="amountInput" className="form-label">Amount</label>
-                        <input type="number" min="0" step="any" className="form-control" id="amountInput" ref={amountInputRef} onChange={validateAmount} />
-                        <div className="text-muted mt-2">Balance: {asset.quantity} {assetMarketData.symbol.toUpperCase()}</div>
+                        <input type="text" className="form-control" id="addressInput" ref={addressInputRef} />
+                        <div className="invalid-feedback">Address is not valid</div>
                       </div>
                       <div>
-                        <button type="button" className="btn btn-primary btn-lg" onClick={handleSend}>Send</button>
+                        <label htmlFor="amountInput" className="form-label">Amount</label>
+                        <input type="number" min="0" step={getAmountStep(assetId)} className="form-control" id="amountInput" ref={amountInputRef} />
+                        <div className="invalid-feedback">{invalidAmountFeedback}</div>
+                        <div className="text-muted mt-2">Balance: {asset.quantity} {assetMarketData.symbol.toUpperCase()}</div>
+                      </div>
+                      { uiMode === 2 && // enable manual tx fee for cypherpunk ui
+                        <div className="mt-3">
+                          <label htmlFor="feeInput" className="form-label">Transaction fee (Optional)</label>
+                          <input type="number" min="0" step={getTxFeeStep(assetId)} className="form-control" id="feeInput" ref={feeInputRef} />
+                          <div className="invalid-feedback">{invalidFeeFeedback}</div>
+                        </div>
+                      }
+                      <div className="mt-4">
+                        <button type="submit" className="btn btn-primary btn-lg">Send</button>
                       </div>
                     </form>
                 </div>
@@ -128,7 +145,7 @@ const Send = () => {
           <ConfirmModal title="Confirm Transaction" show={showModal} onClose={() => setShowModal(false)} onConfirm={sendTx}>
             <p className="text-break">Amount: {amount?.toString()}</p>
             <p className="text-break">Address: {address}</p>
-            <p className="text-break">Transaction fee: {getTxFee(asset.id)}</p>
+            <p className="text-break">Transaction fee: {txFee ? txFee : getTxFee(asset.id)}</p>
           </ConfirmModal>
           <Toast show={showToast} onClose={() => setShowToast(false)} message="Error" color="danger" delay={2000}></Toast>
         </div>
