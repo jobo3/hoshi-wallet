@@ -141,3 +141,17 @@ body {
     background-color: $background-dark;
   }
 }
+
+.code-block {
+  font-size: 1em;
+  background-color: aliceblue;
+  word-wrap: break-word;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+}
+
+.dark {
+  .code-block {
+    background-color: black;
+  }
+}
