@@ -89,7 +89,7 @@ const Send = () => {
     let tx = {
       asset_id: assetId,
       address: address,
-      amount: amount.toNumber(),
+      amount: amount,
       fee: txFee
     }
     try {
@@ -123,14 +123,14 @@ const Send = () => {
                       </div>
                       <div>
                         <label htmlFor="amountInput" className="form-label">Amount</label>
-                        <input type="number" min="0" step={getAmountStep(assetId)} className="form-control" id="amountInput" ref={amountInputRef} />
+                        <input type="number" min="0" step="any" className="form-control" id="amountInput" ref={amountInputRef}/>
                         <div className="invalid-feedback">{invalidAmountFeedback}</div>
                         <div className="text-muted mt-2">Balance: {asset.quantity} {assetMarketData.symbol.toUpperCase()}</div>
                       </div>
                       { uiMode === 2 && // enable manual tx fee for cypherpunk ui
                         <div className="mt-3">
                           <label htmlFor="feeInput" className="form-label">Transaction fee (Optional)</label>
-                          <input type="number" min="0" step={getTxFeeStep(assetId)} className="form-control" id="feeInput" ref={feeInputRef} />
+                          <input type="number" min="0" step="any" className="form-control" id="feeInput" ref={feeInputRef} />
                           <div className="invalid-feedback">{invalidFeeFeedback}</div>
                         </div>
                       }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Spinner from './Spinner'
 import MarketCoinCard from './MarketCoinCard'
-import MarketCoinRow from './MarketCoinRow'
+import MarketCoinTable from './MarketCoinTable'
 
 
 const Market = () => {
@@ -70,23 +70,7 @@ const Market = () => {
                     <input type="search" className="form-control" placeholder="Search coin..." aria-label="Search" value={searchTerm} onChange={handleSearch}/>
                   </div>
                 </div>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Coin</th>
-                      <th scope="col" className="text-end">Price</th>
-                      <th scope="col" className="text-end">24h Change</th>
-                      <th scope="col" className="text-end">Market Cap</th>
-                      <th scope="col" className="text-end">7 Days</th>
-                      <th scope="col" className="text-end">Charts</th>
-                      <th scope="col" className="text-end">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { filteredMarketData.map((coin) => <MarketCoinRow coin={coin} key={coin.id}/>) }
-                  </tbody>
-                </table>
+                <MarketCoinTable data={filteredMarketData}/>
                 { filteredMarketData.length < 1 && (<p className="text-muted fs-5 text-center">No matching coin</p>) }
               </div>
             </div>

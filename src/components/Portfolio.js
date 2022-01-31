@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { totalPortfolioValue, totalPortfolioValue24hAgo, totalPortfolioValueChangePercentage24h } from '../utils/calculate'
 import Spinner from './Spinner'
 import PortfolioAssetCard from './PortfolioAssetCard'
-import PortfolioAssetRow from './PortfolioAssetRow'
+import PortfolioAssetTable from './PortfolioAssetTable'
 
 const Portfolio = () => {
 
@@ -74,25 +74,9 @@ const Portfolio = () => {
                 </div>
                 <div className="d-none d-md-block mx-auto">
                   <div className="card">
-                  <div className="card-body">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Asset</th>
-                        <th scope="col" className="text-end">Balance</th>
-                        <th scope="col" className="text-end">Price</th>
-                        <th scope="col" className="text-end">24h Change</th>
-                        <th scope="col" className="text-end">7 Days</th>
-                        <th scope="col" className="text-end">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        data.map((asset) => <PortfolioAssetRow asset={asset} key={asset.id}/>)
-                      }
-                    </tbody>
-                  </table>
-                  </div>
+                    <div className="card-body">
+                      <PortfolioAssetTable assets={data}/>
+                    </div>
                   </div>
                 </div>
                 <div className="d-md-none">
