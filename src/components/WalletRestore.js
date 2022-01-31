@@ -61,9 +61,9 @@ const WalletRestore = () => {
 
   return (
     <div>
-      <div className='container-md' >
-        <h1>Restore Wallet</h1>
-        <div className="alert alert-info mt-3" role="alert">
+      <div className="container-md">
+        <h1 className="mt-3">Restore Wallet</h1>
+        <div className="alert alert-info mt-4" role="alert">
           Write your 12 recovery words in the correct order, then click on "restore wallet"
         </div>
         <div className="input-group pt-3">

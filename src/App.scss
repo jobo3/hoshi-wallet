@@ -154,4 +154,8 @@ body {
   .code-block {
     background-color: black;
   }
+  .alert-warning {
+    background-color: $yellow-400;
+    border-color: $yellow-500;
+  }
 }

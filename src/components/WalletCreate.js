@@ -28,8 +28,8 @@ const WalletCreate = () => {
   const RecoveryWordsView = () => {
     return (
       <div>
-        <h1>Recovery Words</h1>
-        <div className="alert alert-warning mt-3" role="alert">
+        <h1 className="mt-3">Recovery Words</h1>
+        <div className="alert alert-warning mt-4" role="alert">
           Write down the 12 recovery words shown below and store them in a safe location. 
         </div>
         <div className="mt-3">
@@ -94,8 +94,8 @@ const WalletCreate = () => {
 
     return (
       <div>
-        <h1>Recovery Words Verification</h1>
-        <div className="alert alert-info mt-3" role="alert">
+        <h1 className="mt-3">Recovery Words Verification</h1>
+        <div className="alert alert-info mt-4" role="alert">
           Tap the words in the correct order.
         </div>
         <div className="mt-3">

@@ -2,6 +2,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  useMatch,
 } from 'react-router-dom'
 
 import './App.scss'
@@ -23,20 +24,24 @@ const App = () => {
   const mnemonic = useSelector((state) => state.settings.mnemonic)
 
   const navigate = useNavigate()
+  const match = useMatch('/setup/*')
 
   useEffect(() => {
     console.log(mnemonic)
+    // if there is no mnemonic go to setup
     if (mnemonic == null) {
-      // if the mnemonic exists, it is used for the wallet, if it doesn't exist the user is redirected to wallet setup
-      navigate("/setup", {replace: true})
+      // only go to setup if we are not already there
+      if (match == null || (match && match.pathnameBase !== "/setup")) {
+        navigate("/setup", {replace: true})
+      }
     }
-  }, [mnemonic])
+  }, [mnemonic, match])
 
   return (
       <div className={appClasses}>
           <Routes>
             <Route path="/*" element={<MainView/>} />
-            <Route path="/setup/*" element={<WalletSetup/>} />
+            { mnemonic == null && <Route path="/setup/*" element={<WalletSetup/>} /> }
           </Routes>
       </div>
     );
