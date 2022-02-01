@@ -79,8 +79,10 @@ const Settings = () => {
               <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMnemonic" aria-expanded="false" aria-controls="collapseMnemonic">
                   Show Recovery Words
               </button>
-              <div className="collapse mt-3" id="collapseMnemonic">
-                <code className="code-block">{mnemonic ? mnemonic : ""}</code>
+              <div className="collapse" id="collapseMnemonic">
+                <div className="card mt-3 p-2 code-block">
+                  {mnemonic ? mnemonic : ""}
+                </div>
               </div>
             </div>
             { uiMode === 2 && //cypherpunk
@@ -94,16 +96,20 @@ const Settings = () => {
                 <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseXpriv" aria-expanded="false" aria-controls="collapseXpriv">
                   Show Xpriv
                 </button>
-                <div className="collapse mt-3" id="collapseXpriv">
-                  <code className="code-block">{wallet ? wallet.exportXpriv() : ""}</code>
+                <div className="collapse" id="collapseXpriv">
+                  <div className="card mt-3 p-2 code-block">
+                    {wallet ? wallet.exportXpriv() : ""}
+                  </div>
                 </div>
               </div>
               <div className="mt-3">
                 <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseXpub" aria-expanded="false" aria-controls="collapseXpub">
                   Show Xpub
                 </button>
-                <div className="collapse mt-3" id="collapseXpub">
-                  <code className="code-block pt">{wallet ? wallet.exportXpub() : ""}</code>
+                <div className="collapse" id="collapseXpub">
+                  <div className="card mt-3 p-2 code-block">
+                    {wallet ? wallet.exportXpub() : ""}
+                  </div>
                 </div>
               </div>
             </>

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import classNames from 'classnames'
 import { AVAILABLE_ASSETS } from '../utils/assetHelper'
+import Toast from './Toast'
 
 /**
  * @param coin - element from coingecko market data
@@ -13,10 +14,17 @@ const MarketCoinCard = ({coin}) => {
   const uiMode = useSelector(state => state.settings.ui)
 
   const navigate = useNavigate()
+
+  const [showToast, setShowToast] = useState(false)
+
   const handleClick = () => {
     if (uiMode === 0) {
-      if (isAvailable)
+      if (isAvailable) {
         navigate(`/buy/${coin.id}`)
+      }
+      else {
+        setShowToast(true)
+      }
     }
     else {
       navigate(`/market/${coin.id}`)
@@ -38,6 +46,7 @@ const MarketCoinCard = ({coin}) => {
   })
 
   return (
+    <>
     <div className={cardClasses} onClick={handleClick}>
       <div className="card-body">
         <div className="d-flex"> 
@@ -57,6 +66,8 @@ const MarketCoinCard = ({coin}) => {
         </div>
       </div>
     </div>
+    <Toast show={showToast} onClose={() => setShowToast(false)} message="This asset is currently not supported." color="warning" delay={2000}></Toast>
+    </>
   )
 }
 

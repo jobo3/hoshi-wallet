@@ -143,16 +143,16 @@ body {
 }
 
 .code-block {
-  font-size: 1em;
+  font-size: 1rem;
+  font-family: var(--bs-font-monospace);
+  color: #d63384;
   background-color: aliceblue;
   word-wrap: break-word;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
 }
 
 .dark {
   .code-block {
-    background-color: black;
+    background-color: #282c30;
   }
   .alert-warning {
     background-color: $yellow-400;

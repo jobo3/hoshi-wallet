@@ -26,7 +26,7 @@ const Toast = ({ id='toast', message='Hi!', delay=5000, onClose, show, color='su
   }, [show])
 
   return (
-    <div className="toast-position">
+    <div className="toast-position" style={{zIndex: 1000}}>
       <div id={id} className={toastClasses} role="alert" aria-live="assertive" aria-atomic="true">
         <div className="d-flex">
           <div className="toast-body">
