@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
-import Big from 'big.js'
-import { generateInitialAssets } from '../../utils/assetHelper'
+import { add, isPast } from 'date-fns'
+import { generateInitialAssets, getBalance } from '../../utils/assetHelper'
 
 // load initial state from localstorage, else generate initial portfolio
 const initialState = localStorage.getItem("portfolio") === null ? generateInitialAssets() : JSON.parse(localStorage.getItem('portfolio'))
@@ -17,18 +17,44 @@ export const portfolioSlice = createSlice({
       let index = state.findIndex(e => e.id === tx.asset_id)
       if (index !== -1)  {
         state[index].txs.push(tx)
-        // update quantity
-        let balance = new Big(state[index].quantity)
-        let amount = new Big(tx.amount)
-        let fee = new Big(tx.fee)
-        if (tx.incoming) balance = balance.add(amount)
-        else balance = balance.minus(amount).minus(fee)
-        state[index].quantity = balance.toNumber()
+        const txs = state[index].txs
+        state[index].quantity = getBalance(txs)
+      }
+    },
+    updateTxs: (state, action) => {
+      let shouldUpdateBalance = false
+      for (const key in state) {
+        if (state.hasOwnProperty(key)) {
+          const asset = state[key]
+          for (let i=0; i < asset.txs.length; i++) {
+            let tx = asset.txs[i]
+            if (tx.state === 'PENDING') {
+              if (isPast(add(new Date(tx.date), {minutes: 2}))) {
+                // set state
+                if (tx.incoming) {
+                  state[key].txs[i].state = 'RECEIVED'
+                }
+                else {
+                  state[key].txs[i].state = 'SENT'
+                }
+                shouldUpdateBalance = true
+              }
+            }
+          }
+        }
+      }
+      if (shouldUpdateBalance) {
+        for (const key in state) {
+          if (state.hasOwnProperty(key)) {
+            const txs = state[key].txs
+            state[key].quantity = getBalance(txs)
+          }
+        }
       }
     }
   }
 })
 
-export const {updatedPortfolio, newTx} = portfolioSlice.actions
+export const {updatedPortfolio, newTx, updateTxs} = portfolioSlice.actions
 
 export default portfolioSlice.reducer

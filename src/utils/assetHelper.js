@@ -10,10 +10,19 @@ export const AVAILABLE_ASSETS = ['bitcoin', 'ethereum', 'litecoin', 'dogecoin']
  export function getBalance(txs) {
   let balance = new Big('0')
   txs.forEach( tx => {
-    let amount = new Big(tx.amount)
-    let fee = new Big(tx.fee)
-    if (tx.incoming) balance = balance.add(amount)
-    else balance = balance.minus(amount).minus(fee)
+    if (tx.state === 'PENDING') {
+      if(!tx.incoming) {
+        let amount = new Big(tx.amount)
+        let fee = new Big(tx.fee)
+        balance = balance.minus(amount).minus(fee)
+      }
+    }
+    else {
+      let amount = new Big(tx.amount)
+      let fee = new Big(tx.fee)
+      if (tx.incoming) balance = balance.add(amount)
+      else balance = balance.minus(amount).minus(fee)
+    }
   })
   return balance.toNumber()
 }
@@ -54,29 +63,6 @@ export function getRandomDate(days) {
 
 export function roundAssetDown(number, fractionDigits) {
   return Math.floor(number*Math.pow(10,fractionDigits)) / Math.pow(10,fractionDigits)
-}
-
-// for Send component
-export function getAmountStep(asset) {
-  // switch(asset) {
-  //   case 'bitcoin': return '0.0001'
-  //   case 'ethereum': return '0.001'
-  //   case 'litecoin': return '0.1'
-  //   case 'dogecoin': return '10'
-  //   default: return '0.0001'
-  // }
-  return '0.00000001'
-}
-
-export function getTxFeeStep(asset) {
-  // switch(asset) {
-  //   case 'bitcoin': return '0.000001'
-  //   case 'ethereum': return '0.001'
-  //   case 'litecoin': return '0.00001'
-  //   case 'dogecoin': return '1'
-  //   default: return '0.0001'
-  // }
-  return '0.00000001'
 }
 
 // object containing asset -> average tx fee mapping

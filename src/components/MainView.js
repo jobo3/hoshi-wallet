@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux'
 import PriceAlertView from './PriceAlertView'
 import DataFetcher from './DataFetcher'
 import PriceAlertWatcher from './PriceAlertWatcher'
+import TxScanner from './TxScanner'
 
 
 const MainView = () => {
@@ -30,6 +31,7 @@ const MainView = () => {
   return (
     <>
       <DataFetcher/>
+      <TxScanner/>
       { uiMode > 0 && <PriceAlertWatcher/> } 
       <header></header>
       <div className="main">

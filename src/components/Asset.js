@@ -61,7 +61,7 @@ const Asset = () => {
             </div>
           </div>
           <h3 className="text-center mt-5">Transaction History</h3>
-          <TxList assetId={asset.id} symbol={assetMarketData.symbol.toUpperCase()}/>
+          <TxList assetId={asset.id} symbol={assetMarketData.symbol.toUpperCase()} price={assetMarketData.current_price}/>
         </div>
         : <Spinner></Spinner>
       }
