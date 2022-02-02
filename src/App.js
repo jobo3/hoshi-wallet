@@ -27,7 +27,6 @@ const App = () => {
   const match = useMatch('/setup/*')
 
   useEffect(() => {
-    console.log(mnemonic)
     // if there is no mnemonic go to setup
     if (mnemonic == null) {
       // only go to setup if we are not already there

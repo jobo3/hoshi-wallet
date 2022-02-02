@@ -84,7 +84,6 @@ export const setFeeInputValidity = (input, maxAmount) => {
     return null
   }
   const value = Number(input.value)
-  console.log(value)
   // set validity
   if (isNaN(value)) {
     input.setCustomValidity("")

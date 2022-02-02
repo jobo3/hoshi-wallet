@@ -57,7 +57,6 @@ export default class HDWallet {
     crypto.getRandomValues(array)
     const buffer = Buffer.from(array)
     const mnemonic = bip39.entropyToMnemonic(buffer)
-    console.log(mnemonic)
     return new HDWallet(mnemonic)
   }
 

@@ -14,7 +14,7 @@ store.subscribe(() => {
     localStorage.setItem('portfolio', JSON.stringify(state.portfolio))
     localStorage.setItem('priceAlerts', JSON.stringify(state.priceAlerts))
   } catch(error) {
-    console.log(error)
+    console.error(error)
   }
 })
 

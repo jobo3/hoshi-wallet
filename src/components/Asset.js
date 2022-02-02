@@ -32,7 +32,6 @@ const Asset = () => {
   useEffect(() => {
     if (marketData && asset) {
       let data = marketData.find(e => e.id === asset.id)
-      console.log(data)
       setAssetMarketData(data)
     }
   }, [marketData, asset])

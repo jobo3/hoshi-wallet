@@ -12,7 +12,6 @@ const WalletCreate = () => {
   const [mnemonicArray, setMnemonicArray] = useState(null)
 
   useEffect(() => {
-    console.log("create wallet")
     const hdWallet = HDWallet.generate()
     const mnemonic = hdWallet.getMnemonic()
     setMnemonicArray(mnemonic.split(' '))
@@ -30,7 +29,9 @@ const WalletCreate = () => {
       <div>
         <h1 className="mt-3">Recovery Words</h1>
         <div className="alert alert-warning mt-4" role="alert">
-          Write down the 12 recovery words shown below and store them in a safe location. 
+          Write down the 12 recovery words shown below and store them in a safe location.
+          <br></br>
+          Never show your recovery words to anyone.
         </div>
         <div className="mt-3">
           <div className='d-none d-sm-block'>
@@ -70,24 +71,17 @@ const WalletCreate = () => {
 
     const handleWordBtnClick = (word, index) => {
       let array = [...wordArrayRandomOrder]
-      console.log(word)
-      console.log(array)
       if (array.length > 0) {
         if (wordArrayCorrectOrder[position] === word) {
-          console.log("correct")
           setPosition(position + 1)
           array.splice(index, 1)
           setWordArrayRandomOrder(array)
-          if (array.length === 0) {
-            console.log("finish")
-          }
         }
       }
     }
 
     const handleFinishBtnClick = () => {
       const mnemonic = mnemonicArray.join(' ')
-      console.log("finish btn", mnemonic)
       dispatch(setMnemonic(mnemonic))
       navigate('/')
     }
