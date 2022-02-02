@@ -3,10 +3,9 @@ import { useParams, useNavigate } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from './Spinner'
 import { checkInputValidity, setAddressInputValidity, setFeeInputValidity, setSendAmountInputValidity } from '../utils/validity'
-import Big from 'big.js'
 import ConfirmModal from './ConfirmModal'
 import Toast from './Toast'
-import { createOutgoingTransaction, getAmountStep, getTxFee, getTxFeeStep } from '../utils/assetHelper'
+import { createOutgoingTransaction, getTxFee } from '../utils/assetHelper'
 import { newTx } from '../features/portfolio/portfolioSlice'
 
 const Send = () => {

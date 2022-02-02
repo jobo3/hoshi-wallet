@@ -28,7 +28,6 @@ const BuyCheckoutView = () => {
     return val
   })
 
-  const portfolio = useSelector((state) => state.portfolio)
   const settings = useSelector((state) => state.settings)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -56,7 +55,6 @@ const BuyCheckoutView = () => {
           amount: coinsAmount
         }
         tx = createIncomingTransaction(tx)
-        console.log(tx)
         dispatch(newTx(tx))
         navigate('/wallet/'+assetId)
       } catch(error) {
