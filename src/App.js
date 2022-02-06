@@ -39,8 +39,7 @@ const App = () => {
   return (
       <div className={appClasses}>
           <Routes>
-            <Route path="/*" element={<MainView/>} />
-            { mnemonic == null && <Route path="/setup/*" element={<WalletSetup/>} /> }
+            { mnemonic == null ? <Route path="/setup/*" element={<WalletSetup/>} /> : <Route path="/*" element={<MainView/>} />  }
           </Routes>
       </div>
     );
