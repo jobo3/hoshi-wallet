@@ -34,6 +34,28 @@ const Settings = () => {
     }
   }, [])
 
+  const downloadXpriv = () => {
+    if (wallet) {
+      const link = document.createElement("a")
+      const blob = new Blob([wallet.exportXpriv()], {type: 'text/plain'})
+      link.href = URL.createObjectURL(blob)
+      link.download = "xpriv.txt"
+      document.body.appendChild(link)
+      link.click()
+    }
+  }
+
+  const downloadXpub = () => {
+    if (wallet) {
+      const link = document.createElement("a")
+      const blob = new Blob([wallet.exportXpub()], {type: 'text/plain'})
+      link.href = URL.createObjectURL(blob)
+      link.download = "xpub.txt"
+      document.body.appendChild(link)
+      link.click()
+    }
+  }
+
   return (
     <div className="container">
       <h1 className="text-center">Settings</h1>
@@ -96,6 +118,7 @@ const Settings = () => {
                 <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseXpriv" aria-expanded="false" aria-controls="collapseXpriv">
                   Show Xpriv
                 </button>
+                <button className="btn btn-link ms-2" type="button" onClick={downloadXpriv}>Download Xpriv</button>
                 <div className="collapse" id="collapseXpriv">
                   <div className="card mt-3 p-2 code-block">
                     {wallet ? wallet.exportXpriv() : ""}
@@ -106,6 +129,7 @@ const Settings = () => {
                 <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseXpub" aria-expanded="false" aria-controls="collapseXpub">
                   Show Xpub
                 </button>
+                <button className="btn btn-link ms-2" type="button" onClick={downloadXpub}>Download Xpub</button>
                 <div className="collapse" id="collapseXpub">
                   <div className="card mt-3 p-2 code-block">
                     {wallet ? wallet.exportXpub() : ""}
