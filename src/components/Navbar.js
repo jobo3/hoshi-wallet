@@ -27,6 +27,11 @@ const Navbar = () => {
                 <i className="bi bi-gear" />
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink to="/faq" className="nav-link">
+                <i className="bi bi-question-circle" />
+              </NavLink>
+            </li>
             { uiMode > 0 && // uiMode trader or cypherpunk
               <li className="nav-item">
                 <NavLink to="/alerts" className="nav-link link-light">

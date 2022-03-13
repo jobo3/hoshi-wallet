@@ -21,6 +21,7 @@ import PriceAlertView from './PriceAlertView'
 import DataFetcher from './DataFetcher'
 import PriceAlertWatcher from './PriceAlertWatcher'
 import TxScanner from './TxScanner'
+import Faq from './Faq'
 
 
 const MainView = () => {
@@ -54,6 +55,12 @@ const MainView = () => {
               Settings
             </NavLink>
           </SidebarItem>
+          <SidebarItem>
+            <NavLink to="/faq" className="nav-link link-light">
+              <i className="bi bi-question-circle me-2"></i>
+              FAQ
+            </NavLink>
+          </SidebarItem>
           { uiMode > 0 && // uiMode trader or cypherpunk
             <SidebarItem>
               <NavLink to="/alerts" className="nav-link link-light">
@@ -77,6 +84,7 @@ const MainView = () => {
               <Route path="market" element={<Market/>} />
               <Route path="market/:coinId" element={<ChartView/>} />
               <Route path="settings" element={<Settings/>} />
+              <Route path="faq" element={<Faq/>} />
               <Route path="buy/:assetId/*" element={<BuyAsset/>} /> 
               <Route path="alerts" element={<PriceAlertView/>} />
               <Route path="*" element={<div>Page not found</div>} />
