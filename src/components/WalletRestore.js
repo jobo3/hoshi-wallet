@@ -64,7 +64,7 @@ const WalletRestore = () => {
       <div className="container-md">
         <h1 className="mt-3">Restore Wallet</h1>
         <div className="alert alert-info mt-4" role="alert">
-          Write your 12 recovery words in the correct order, then click on "restore wallet"
+          Write your 12 recovery words in the correct order, then click on "Restore wallet"
         </div>
         <div className="input-group pt-3">
           <input className="form-control" list="datalistOptions" id="dataList" ref={input} placeholder="Type to search..." onKeyDown={handleKeyDown}/>
